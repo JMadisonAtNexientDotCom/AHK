@@ -1,0 +1,11 @@
+<constructor-arg>
+	<list>
+		<ref bean="sgtPeppers" />
+		<ref bean="whiteAlbun" />
+		<ref bean="hardDaysNight" />
+		<ref bean="revolver" />
+		<!-- PAGE 54 of Spring In Action 4th Edition PDF -->
+		<!-- Note: Can use the <set> tag in place of <list> -->
+		<!-- Set's discard duplicate items and do not respect ordering. -->
+	</list>
+<constructor-arg>

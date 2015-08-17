@@ -1,7 +1,7 @@
 package soundsystem;
 import org.springframework.stereotype.Component;
 
-//from page 34 of SpringInAction4Th Edition PDF.
+//from page 35 of SpringInAction4Th Edition PDF.
 
 @Component
 public class SgtPeppers implements CompactDisc{
@@ -9,8 +9,8 @@ public class SgtPeppers implements CompactDisc{
 	private String artist = "artist";
 	
 	public void play(){
-			System.out.println("playing the sgt pepper track.");
-			System.out.println("artist==" + artist);
-			System.out.println("title==" + title);
+	  //we need to follow the example exactly here, because the
+		//junit test code can actually test for output printed to console.
+		System.out.println("Playing " + title + " by " + artist);
 	}
 }

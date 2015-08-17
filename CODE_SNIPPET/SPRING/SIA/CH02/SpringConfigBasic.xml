@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context">
+		
+		<!-- This file is usually called "Beans.xml" according to this tutorial:-->
+		<!-- http://www.tutorialspoint.com/spring/spring_hello_world_example.htm -->
+		<!-- page 47 of Spring In Action PDF. Fourth Edition. -->
+		<!-- configuration details go here -->
+		
+		<!-- Your most basic, but useless configuration, because it is EMPTY -->
+
+</beans>

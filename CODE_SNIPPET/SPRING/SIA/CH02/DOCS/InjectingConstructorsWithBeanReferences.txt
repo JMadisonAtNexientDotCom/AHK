@@ -1,0 +1,35 @@
+
+<!-- Since Injecting Constructors With Bean References -->
+<!-- Is pretty long, try a shortcut of: ICWBR, make them capitals to -->
+<!-- Signify it is an acroynym -->
+
+<!--Page 51. Think these arguments are ORDER DEPENDENT -->
+<!-- within this XML example: -->
+<bean id= compactDisc"
+		class="soundSystem.BlankDisc">
+	<constructor-arg value="Sgt. Pepper's Lonely Hearts Club Band" />
+	<constructor-arg value="The Beatles" />
+</bean>
+
+
+<!-- CCCCCCCCC C-NAMESPACE WIRING (BELOW)-->
+
+<!-- Wiring using parameter names: title&artist -->
+<!--Page 52 of spring in action 4th edition PDF -->
+<bean id="compactDisc"
+	class="soundsystem.BlankDisc"
+	c:_title="Sgt. Pepper's Lonely Hearts Club Band"
+	c:_artist="The Beatles" />
+	
+<!-- Wiring using parameter indices. -->
+<!-- Page 52 of Spring in action 4th edition PDF -->
+<bean id="compactDisc"
+	class="soundsystem.BlankDisc"
+	c:_0="Sgt. Pepper's Lonely Hearts Club Band"
+	c:_1="The Beatles" />
+	
+<!-- Pretend BlankDisc only takes ONE argument. 
+<!-- Then we can leave off the numbers after the underscore -->
+<bean id="compactDisc"
+	class="soundSystem.BlankDisc"
+	c:_="Sgt. Pepper's Lonely Hearts Club Band" />

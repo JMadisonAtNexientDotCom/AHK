@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- NOTE: The header for this is using c namespace, and a is a bit -->
+<!-- different than your most basic spring config file header. -->
+<beans 
+  xmlns     ="http://www.springframework.org/schema/beans"
+  xmlns:c   ="http://www.springframework.org/schema/c"
+	xmlns:xsi ="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context">
+		
+		<!-- This file is usually called "Beans.xml" according to this tutorial:-->
+		<!-- http://www.tutorialspoint.com/spring/spring_hello_world_example.htm -->
+		<!-- page 50 of Spring In Action PDF. Fourth Edition. -->
+		
+		
+		<!-- This bean will be autonamed: soundsystem.SgtPeppers#1 -->
+		<bean class="soundsystem.SgtPeppers" />
+		
+		<!-- This bean is EXPLICITLY named: (page 48)-->
+		<bean id="compactDisc" class="soundsystem.SgtPeppers" />
+		
+		<!-- Page 51 of spring in action. Injecting constructors with literal values. -->
+		<bean id="compactDisc"
+			class="soundSystem.blankDisc">
+			<constructor-arg value="Sgt. Pepper's Lonely Hearts Club Band" />
+			<constructor-arg value="The Beatles" />
+		</bean>
+		
+		
+		<!-- page 49: INJECTING CONSTRUCTORS WITH BEAN REFERENCES -->
+		<bean id="cdPlayerAwesome" class="soundsystem.CDPlayer">
+			<constructor-arg ref="compactDisc" />
+		</bean>
+		
+		<!-- page 50: same result as page 49, but using "c" namespace -->
+		<!-- JMadison Note: Not much a fan of making the extra information an -->
+		<!-- Attribute. Nesting as element seems better to me. -->
+		<bean id="cpPlayer" class="soundsystem.CDPlayer" c:cd-ref="compactDisc"/>
+
+</beans>

@@ -1,0 +1,10 @@
+<constructor-arg>
+	<list>
+		<value>Sgt. Pepper's Lonely Hearts Club Band</value>
+		<value>With a Little Help from My Friends</value>
+		<value>Lucy in the Sky with Diamonds</value>
+		<value>Getting Better</value>
+		<value>Fixing a Hole</value>
+		<!-- PAGE 53 of Spring In Action 4th Edition PDF -->
+	</list>
+<constructor-arg>

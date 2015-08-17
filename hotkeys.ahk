@@ -9,6 +9,7 @@ SetDefaults(void)
 {
 global
 TheList= fora,bena,iana
+
  
   ;As nice as it would be to use a shortcut file... lookups this way are SLOW!
         ; Create the array, initially empty:
@@ -70,20 +71,32 @@ TheList= fora,bena,iana
         } ;END OF LOOP
 				
 					
- 
+	;//MsgBox "Initialized:"%SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
  
 return
 }
  
 SetDefaults(void)
 
+ ~[::
+ {
+ 	Input, UserInput, V T5 L20 C, {enter}{esc}{tab}{backspace}, %SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
+ 	BRACKET_SHORTCUT_TRY(UserInput)
+ }
 
 ;used for inserting snippets. Example [for] writes a for-loop snippet.
-~[::
+BRACKET_SHORTCUT_TRY(UserInput)
+;~[::
 {
-	;// Input, UserInput, V T5 L20 C, {enter}.{esc}{tab}{backspace}, for],while],main],ps],pv],cs],cdplayerconfig],compactdisc],sgtpeppers],sia_listing],cdplayertest]
-	;//Input, UserInput, V T5 L20 C, {enter}.{esc}{tab}{backspace}, %ARR_TEST%
-	Input, UserInput, V T5 L20 C, {enter}.{esc}{tab}{backspace}, %SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
+	;//Declare the globals you are using:
+	;//http://www.autohotkey.com/board/topic/87597-help-me-use-global-variables/
+	global SNIPPET_SHORTCUT_ARRAY_MATCHLIST
+	global SNIPPET_SHORTCUT_ASSOC_ARRAY
+	
+	;//msgbox %UserInput%
+	;//msgbox MATCHLIST==%SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
+
+	;Input, UserInput, V T5 L20 C, {enter}.{esc}{tab}{backspace}, %SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
 	
 	if (ErrorLevel = "Max")
 	{
@@ -115,10 +128,10 @@ SetDefaults(void)
 		LenToUse:=Len-1
 		;MsgBox %LenToUse%
 		SubInput:=SubStr(UserInput,1, LenToUse)
-		;MsgBox %SubInput%
+		;MsgBox SubInput==%SubInput%
 		
 		possibleFileName:= SNIPPET_SHORTCUT_ASSOC_ARRAY[SubInput]
-		;//MsgBox % possibleFileName
+		;MsgBox % possibleFileName
 		possibleFileNameLen:=StrLen(possibleFileName)
 		;//MsgBox % possibleFileNameLen
 		
@@ -127,7 +140,11 @@ SetDefaults(void)
 		if(possibleFileNameLen > 0)
 		{
 			DELETE_WORD(SubInput,2)
-			PASTE_FILE(possibleFileName)
+			PASTE_TEXT_FRIENDLY_FILES_OR_OPEN_OTHERWISE(possibleFileName)
+		}
+		else
+		{
+			MsgBox, "NOT FOUND"
 		}
   ;////////////////////////////////////////////////////////////////////
 		
@@ -266,6 +283,42 @@ SetDefaults(void)
 Suspend, Permit
 Suspend, Toggle
 Return
+
+;A alternate way to enter shortcut using a dialog box:
+^#r::
+{
+	;MsgBox "Test"
+  ;//http://ahkscript.org/docs/commands/InputBox.htm
+	;InputBox, OutputVar [, Title, Prompt, HIDE, Width, Height, X, Y, Font, Timeout, Default]
+	InputBox, OutputVar
+	;//Send, [%OutputVar%]
+	closingBracketChar = ]
+	argString = %OutputVar%%closingBracketChar%
+	;//MsgBox %argString%
+	BRACKET_SHORTCUT_TRY(argString)
+	
+}
+
+
+;//If the file type is a text-only format like:
+;//.txt, .html, .java, .cpp, .xml, then it will paste
+;//the document using the clipboard.
+;//If it is NOT friendly: .docx, .xls, .rtf, .pdf, .bmp, .jpg
+;//Then it will be opened with the default program.
+;//http://www.autohotkey.com/docs/commands/SplitPath.htm <will need this.
+PASTE_TEXT_FRIENDLY_FILES_OR_OPEN_OTHERWISE(filePath){
+	;//SplitPath, InputVar [, OutFileName, OutDir, OutExtension, OutNameNoExt, OutDrive]
+	SplitPath, filePath, dontCare01,  dontCare02, ext,  dontCare03,  dontCare04
+
+	if(ext="docx")
+	{
+		Run, %A_ScriptDir%\%filePath%
+	}
+	else
+	{
+		PASTE_FILE(filePath)
+	}
+}
 
 ;Dont know how to do with function
 PASTE_FILE(filePathToRead){
