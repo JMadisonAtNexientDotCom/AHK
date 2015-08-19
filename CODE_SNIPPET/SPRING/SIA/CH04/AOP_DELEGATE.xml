@@ -1,0 +1,11 @@
+<!-- BookPages124-125 of SpringInAction4ThEdition -->
+<aop:aspect>
+	<aop:declare-parents
+		types-matching="concert.Performance+"
+		implement-interface="concert.Encoreable"
+		delegate-ref="encoreableDelegate"
+	/>
+</aop:aspect>
+
+<bean id="encoreableDelegate"
+class="concert.DefaultEncoreable" />

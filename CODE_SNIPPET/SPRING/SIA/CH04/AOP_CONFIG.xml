@@ -1,0 +1,31 @@
+<aop:config>
+  <!-- BookPage119 of SpringInAction4thEdition -->
+	<!-- Referenced ADVICE bean == audience class -->
+	<!-- All methods referenced in the pointcuts are from "audience" class -->
+	<aop:aspect ref="audience"> 
+	
+	<!-- This is called "PointCut" in AOP terms I believe. -->
+	<!-- NOO!!! This whole thing is ADVICE. The pointcut is the -->
+	<!-- Entry-Point for when the advice is called. -->
+	<!-- What to do before perform() method is called. -->
+	<aop:before
+	pointcut="execution(** concert.Performance.perform(..))"
+	method="silenceCellPhones"/>
+	
+	<!-- ANOTHER THING to do before perform() is called. -->
+	<aop:before
+	pointcut="execution(** concert.Performance.perform(..))"
+	method="takeSeats"/>
+	
+	<!-- Thing to do AFTER function SUCCESSFULLY completes. -->
+	<aop:after-returning
+	pointcut="execution(** concert.Performance.perform(..))"
+	method="applause"/>
+	
+	<!-- What to do if an error happens in perform() -->
+	<aop:after-throwing
+	pointcut="execution(** concert.Performance.perform(..))"
+	method="demandRefund"/>
+	
+	</aop:aspect>
+</aop:config>

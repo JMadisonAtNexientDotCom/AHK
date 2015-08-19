@@ -1,0 +1,16 @@
+//http://docs.spring.io/spring-javaconfig/docs/1.0.0.M4/reference/html/ch03.html
+@Configuration
+public class MyConfig {
+    @Bean(primary=Primary.TRUE)
+    public Service myService() {
+        return new Service();
+    }
+
+    @Bean
+    public Service backupService() {
+        return new Service();
+    }
+}
+//Note: The name "javaconfig" seems a bit generic for a shortcut.
+//IDEA: When there are two or more names with the same shortcut, you will
+//be prompted as to which one to use.

@@ -1,0 +1,7 @@
+//Jars needed to get AspectJ portions of code working in spring.
+//NOT the full aspectJ, just the annotations and stuff.
+//(As far as I am concerned)
+aspectjrt-#.#.#.jar
+aspectjweaver-#.#.#.jar
+
+[?jarsaspectj] seems like a good shortcut for this.

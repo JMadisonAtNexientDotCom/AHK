@@ -71,17 +71,25 @@ TheList= fora,bena,iana
         } ;END OF LOOP
 				
 					
-	;//MsgBox "Initialized:"%SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
+	MsgBox "Initialized:"%SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
  
 return
 }
  
 SetDefaults(void)
 
+^j::
+{
+	Send, testing auto hot key...
+	return
+}
+
  ~[::
  {
+ ;//MSGBox "user input test..."
  	Input, UserInput, V T5 L20 C, {enter}{esc}{tab}{backspace}, %SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
  	BRACKET_SHORTCUT_TRY(UserInput)
+	return
  }
 
 ;used for inserting snippets. Example [for] writes a for-loop snippet.
@@ -153,7 +161,7 @@ BRACKET_SHORTCUT_TRY(UserInput)
 
 ~>::
 {
-	Input, UserInput, V T5 L10 C, {enter}.{esc}{tab}{space}, dev,java,hibernate,google,rapid,chrono,clarizen,asana,eclipse,notepad,joblog,gitbash,github,welcome,paint,hotkeys,wamp
+	Input, UserInput, V T5 L10 C, {enter}.{esc}{tab}{space}, dev,java,hibernate,google,rapid,chrono,clarizen,asana,eclipse,notepad,joblog,gitbash,github,welcome,paint,hotkeys,wamp,word,money,ontop
 	if (ErrorLevel = "Max")
 	{
 	    ;;this will conflict with HTML coding, so comment out the msg box.
@@ -186,7 +194,21 @@ BRACKET_SHORTCUT_TRY(UserInput)
 	{
 			Send, {backspace 5}
 			Run, "C:\DEV"
-	}else if (UserInput = "java")
+	}
+	else if(UserInput = "ontop")
+	{
+		Run, "C:\DEV\PROG\AlwaysOnTopMaker\AlwaysOnTopMaker.exe"
+	}
+	else if(UserInput = "money")
+	{
+		Run, "C:\Users\jmadison\Desktop\NotOrganized\Money"
+	}
+	else if(UserInput = "word")
+	{
+		DELETE_WORD("word",1)
+		Run, "C:\Program Files\Microsoft Office\Office14\WINWORD.exe"
+	}
+	else if (UserInput = "java")
 	{
 			Send, {backspace 6}
 			Run, "C:\DEV\SDK\JAVA"
@@ -310,7 +332,7 @@ PASTE_TEXT_FRIENDLY_FILES_OR_OPEN_OTHERWISE(filePath){
 	;//SplitPath, InputVar [, OutFileName, OutDir, OutExtension, OutNameNoExt, OutDrive]
 	SplitPath, filePath, dontCare01,  dontCare02, ext,  dontCare03,  dontCare04
 
-	if(ext="docx")
+	if(  (ext="docx") || (ext="pdf") )
 	{
 		Run, %A_ScriptDir%\%filePath%
 	}

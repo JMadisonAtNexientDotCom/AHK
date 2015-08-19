@@ -1,0 +1,163 @@
+
+Project By: John Mark Isaac Madison:
+On: 2015.08.19 (AUG 19th, WEDNESDAY, 2015)
+Below are all the files you should need to setup a basic "hello world"
+that uses spring and xml-configured aop advice.
+
+################################################################################
+#############################MainEntryPoint.java################################
+package sia_ch04;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+/**45678901234567890123456789012345678901234567890123456789012345678901234567890
+-------------------------------------HEADER-------------------------------------
+Putting to use what I learned from spring in action 4th edition, chapter 04
+
+GOAL: 
+The simplest possible plain java project that implements XML based AOP advice.
+Not using maven, because the goal is to be able to wire everything up myself,
+in order to prove that I have a full understanding of the basic configurations.
+
+You will need:
+1. Spring Libs:
+    spring-expression-#.#.#.jar
+    spring-aop
+    spring-aspects
+    spring-beans
+    spring-context
+    spring-context-support
+    spring-core
+     
+2. AOP Libs:
+	aopalliance-#.jar  //NOT aopalliance-alpha1 
+	apsectjweaver
+	aspectjrt
+	aspectj
+	
+3. commons-logging-#.#.jar
+	
+@author JMadison
+@created 2015.08.18
+-----------------------------------------------------------------------------**/
+public class MainEntryPoint {
+	public static void main(String[] args){
+		
+		System.out.println("ENTERING: MainEntryPoint");
+		
+		//ApplicationContext context;
+		AbstractApplicationContext context = null;
+		
+		
+			context = new ClassPathXmlApplicationContext("Beans.xml");
+			HELLO_PLEASE_ADVISE_ME obj = 
+							(HELLO_PLEASE_ADVISE_ME) context.getBean("PLEASE_ADVISE_MY_BEAN");
+			obj.getMessage();
+		
+			context.close();
+		
+		
+	    System.out.println("EXITING: MainEntryPoint");
+		
+	}//FUNC:main:END
+}//CLASS:Main::END
+################################################################################
+########################HELLO_PLEASE_ADVISE_ME.java#############################
+package sia_ch04;
+
+public class HELLO_PLEASE_ADVISE_ME {
+   private String message;
+
+   public void setMessage(String message){
+      this.message  = message;
+   }
+
+   public void getMessage(){
+      System.out.println("Your Message : " + message);
+   }
+}//CLASS::END
+################################################################################
+##################ASPECT_THAT_GIVES_AROUND_ADVICE.java##########################
+package sia_ch04;
+import org.aspectj.lang.ProceedingJoinPoint;
+
+/** My aspect class that GIVES advice to HELLO_PLEASE_ADVISE_ME.java **/
+public class ASPECT_THAT_GIVES_AROUND_ADVICE {
+	
+	public void around_advice(ProceedingJoinPoint jp){
+		
+		try{
+			
+		System.out.println("ADVICE!!!: BEFORE");
+		jp.proceed();
+		System.out.println("ADVICE!!!: AFTER");
+		}catch(Throwable e){
+			System.out.println("ADVICE!!!: ERROR");
+		}//TRY::END
+	}//FUNC::END
+}//CLASS::END
+################################################################################
+################################Beans.xml#######################################
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+		http://www.springframework.org/schema/aop 
+   		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd 
+   		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- From BookPage122 of SpringInAction4ThEdition -->
+	<aop:config>
+		<aop:aspect ref="I_GIVE_ADVICE">
+		
+			<!-- FAILS -->
+			<!-- ///////////////////////////////////////////////////////////////// -->
+			<!-- This point cut will NOT work because it -->
+			<!-- is invoked in our Beans configuration.  -->
+			<aop:pointcut
+			id="myAopPointCut_wont_work"
+			expression=
+			"execution(** sia_ch04.HELLO_PLEASE_ADVISE_ME.setMessage(..))" />
+			
+			<aop:around
+			pointcut-ref="myAopPointCut_wont_work"
+			method="around_advice"/>
+			<!-- ///////////////////////////////////////////////////////////////// -->
+			
+			<!-- WORKS -->
+			<!-- ///////////////////////////////////////////////////////////////// -->
+			<!-- This point cut WILL work because it is invoked -->
+			<!-- after configuration is complete. -->
+			<aop:pointcut
+			id="myAopPointCut_will_work"
+			expression=
+			"execution(** sia_ch04.HELLO_PLEASE_ADVISE_ME.getMessage(..))" />
+			
+			<aop:around
+			pointcut-ref="myAopPointCut_will_work"
+			method="around_advice"/>
+			<!-- ///////////////////////////////////////////////////////////////// -->
+			
+		</aop:aspect>
+	</aop:config>
+	
+	<!-- AutoProxying to declare bean. Covered in BookPage 110 of SIA 4thEDT. -->
+	<!-- NOTE: This line will require: aopalliance.jar -->
+	<!-- HERE: http://mvnrepository.com/artifact/aopalliance/aopalliance/1.0 -->
+	<aop:aspectj-autoproxy />
+	
+	<!-- This "makes" your class an aspect when using XML configuration. -->
+	<context:component-scan base-package="sia_ch04" />
+	<bean id="I_GIVE_ADVICE" class="sia_ch04.ASPECT_THAT_GIVES_AROUND_ADVICE" />
+
+	<!-- So mainEntryPoint.java can load the HelloWorld.java class -->
+	<bean id="PLEASE_ADVISE_MY_BEAN" class="sia_ch04.HELLO_PLEASE_ADVISE_ME">
+       <property name="message" value="TOTALLY A MESSAGE"/>
+   </bean>
+
+</beans>
+################################################################################

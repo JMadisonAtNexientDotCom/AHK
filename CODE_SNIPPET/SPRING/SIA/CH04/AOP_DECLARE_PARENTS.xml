@@ -1,0 +1,7 @@
+<aop:aspect>
+	<aop:declare-parents
+		types-matching="concert.Performance+"
+		implement-interface="concert.Encoreable"
+		default-impl="concert.DefaultEncoreable"
+	/>
+</aop:aspect>

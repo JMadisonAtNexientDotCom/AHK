@@ -6,6 +6,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.junit.contrib.java.lang.system.StandardOutputStreamLog;
+//NOTE: For StandarOutputStreamLog, you need a .Jar file that is not part of core JUnit library.
+//http://mvnrepository.com/artifact/com.github.stefanbirkner/system-rules/1.2.0
+//http://stefanbirkner.github.io/system-rules/index.html#SystemErrAndOutRule
+
 /** 2nd version of CDPlayerTest. Transcribed from book.
     From Page 42 of SpringInAction 4Th Edition PDF.
     Listing 2.2.5 : Verifying automatic configuration **/
@@ -13,10 +18,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(classes=CDPlayerConfig.class)
 public class CDPlayerTest {
 	
+	/** This was really annoying to find import for. **/
 	@Rule
 	public final StandardOutputStreamLog log =
 		new StandardOutputStreamLog();
-		
+	
 	@Autowired
 	private MediaPlayer player;
 	
@@ -31,13 +37,7 @@ public class CDPlayerTest {
 	@Test
 	public void play() {
 		player.play();
-		assertEquals(
-		"Playing Sgt. Pepper's Lonely Hearts Club Band" +
-		" by The Beatles\n",
-		log.getLog());
+		String n = System.lineSeparator();
+		assertEquals("Playing Sgt. Pepper's Lonely Hearts Club Band" + " by The Beatles" + n, log.getLog());
 	}
 }
-
-
-
-

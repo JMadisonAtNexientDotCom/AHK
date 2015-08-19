@@ -1,0 +1,3 @@
+@Scope(
+	value=WebApplicationContext.SCOPE_SESSION,
+	proxyMode=ScopedProxyMode.INTERFACES)

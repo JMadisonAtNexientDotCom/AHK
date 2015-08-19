@@ -1,0 +1,22 @@
+<!-- BookPage120 of SpringInAction4ThEdition -->
+<aop:config>
+	<aop:aspect ref="audience">
+	
+		<aop:pointcut
+		id="PERFORMANCE_POINTCUT_IDENTIFIER"
+		expression="execution(** concert.Performance.perform(..))" />
+		
+		<aop:before
+		pointcut-ref="PERFORMANCE_POINTCUT_IDENTIFIER"
+		method="silenceCellPhones"/>
+		
+		<aop:after-returning
+		method="applause"
+		pointcut-ref="PERFORMANCE_POINTCUT_IDENTIFIER"/>
+		
+		<aop:after-throwing
+		method="demandRefund"
+		pointcut-ref="PERFORMANCE_POINTCUT_IDENTIFIER"/>
+		
+	</aop:aspect>
+</aop:config>

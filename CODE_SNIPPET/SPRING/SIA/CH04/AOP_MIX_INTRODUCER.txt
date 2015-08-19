@@ -1,0 +1,109 @@
+################################################################################
+########################### RUN_AS_APP.java ####################################
+package sia_04;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+/**45678901234567890123456789012345678901234567890123456789012345678901234567890
+-------------------------------------HEADER-------------------------------------
+ *  Main entry point for project. 
+ * 
+ *  Basing terminology on diagram on page 115 of SIA.
+ *  Naming identifiers and classes with generic names
+ *  that describe what they are.
+ *  
+ *  Since this is just a hello world, these seem like
+ *  the best fitting names because it helps you grasp
+ *  the terminology as well as the connection of the parts.
+ *  
+ *  You will need:
+	1. Spring Libs:
+	    spring-expression-#.#.#.jar
+	    spring-aop
+	    spring-aspects
+	    spring-beans
+	    spring-context
+	    spring-context-support
+	    spring-core
+	     
+	2. AOP Libs:
+		aopalliance-#.jar  //NOT aopalliance-alpha1 
+		apsectjweaver
+		aspectjrt
+		aspectj
+		
+	3. commons-logging-#.#.jar
+@author JMadison
+@created 2015.08.18
+-----------------------------------------------------------------------------**/
+public class RUN_AS_APP {
+
+	public static void main(String[] args){
+		AbstractApplicationContext ctx = null;
+		ctx = new ClassPathXmlApplicationContext("Beans.xml");
+		ADVISE_ME obj = (ADVISE_ME) ctx.getBean("ADVISE_THIS");
+		obj.ORIGINAL_METHOD();
+		
+		//Cast the "ADVISE_THIS" bean to AN_IMPLEMENTATION type to
+		//test if this object has the new functionality: EXTRA_METHOD
+		AN_INTERFACE imp = (AN_INTERFACE)obj;
+		imp.EXTRA_METHOD();
+		
+		ctx.close();
+	}
+}
+################################################################################
+############################ AN_INTERFACE.java #################################
+package sia_04;
+interface AN_INTERFACE {
+    void EXTRA_METHOD();
+}
+################################################################################
+########################### AN_IMPLEMENTATION.java #############################
+package sia_04;
+public class AN_IMPLEMENTATION 
+       implements AN_INTERFACE{
+	public void EXTRA_METHOD(){
+		System.out.println("EXTRA_METHOD()");
+	}
+}
+################################################################################
+############################## ADVISE_ME.java ##################################
+package sia_04;
+public class ADVISE_ME {
+	public void ORIGINAL_METHOD(){
+		System.out.println("ORIGINAL_METHOD()");
+	}
+}
+################################################################################
+############################## INTRODUCER.java #################################
+package sia_04;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.DeclareParents;
+
+@Aspect
+public class INTRODUCER {
+	@DeclareParents(value="sia_04.ADVISE_ME+",
+	defaultImpl=AN_IMPLEMENTATION.class)
+	public static AN_INTERFACE INTRODUCTION_DELEGATE;
+}
+################################################################################
+################################ Beans.xml #####################################
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+		http://www.springframework.org/schema/aop 
+   		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd 
+   		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<aop:aspectj-autoproxy />
+	<bean class="sia_04.INTRODUCER" />
+	<bean name="ADVISE_THIS" class="sia_04.ADVISE_ME" />
+
+</beans>
+################################################################################
+################################################################################

@@ -1,0 +1,29 @@
+//PointCut Expressions:
+
+//SOURCE: http://docs.spring.io/spring/docs/current/spring-framework-reference/html/aop.html
+@Pointcut("execution(* transfer(..))")// the pointcut expression
+private void anyOldTransfer() {}// the pointcut signature
+
+the execution of any public method: 
+execution(public * *(..))
+
+the execution of any method with a name beginning with "set": 
+execution(* set*(..))
+
+the execution of any method defined by the AccountService interface: 
+execution(* com.xyz.service.AccountService.*(..))
+
+the execution of any method defined in the service package: 
+execution(* com.xyz.service.*.*(..))
+
+the execution of any method defined in the service package or a sub-package: 
+execution(* com.xyz.service..*.*(..))
+
+any join point (method execution only in Spring AOP) within the service package: 
+within(com.xyz.service.*)
+
+any join point (method execution only in Spring AOP) within the service package or a sub-package: 
+within(com.xyz.service..*)
+
+any join point (method execution only in Spring AOP) where the proxy implements the AccountService interface: 
+this(com.xyz.service.AccountService)

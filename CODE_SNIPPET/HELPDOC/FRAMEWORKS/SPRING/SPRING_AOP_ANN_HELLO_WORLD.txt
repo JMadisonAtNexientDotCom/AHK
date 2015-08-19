@@ -1,0 +1,137 @@
+All of the files needed to create a spring-aop hello-world project
+Using only annotation configuration (java config) and no Beans.xml file.
+Based on book: "Spring In Action 4Th Edition"
+If you see the letters "SIA", it stands for "Spring In Action"
+sia_04 denotes that the code is based off of what I read in chapter 4.
+By: John Mark Isaac Madison: 2015.08.19
+################################################################################
+################# RUN_THIS_AS_JAVA_APPLICATION.java ############################
+package sia_04;
+import org.springframework.context.annotation.
+																					AnnotationConfigApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+/**45678901234567890123456789012345678901234567890123456789012345678901234567890
+-------------------------------------HEADER-------------------------------------
+The most basic "hello world" I could come up with for spring-aop that uses
+ only annotations and java configuration files. (As apposed to Beans.XML config)
+ 
+ Comments on what are and are not needed are particular to being
+ "needed for this hello world to run" it does not denote that those keywords or
+ annotations are completely useless.
+ 
+ SIA == Spring In Action 4Th Edition.
+ In order to make comments more concise, you may see that abbreviation.
+@author JMadison
+@created 2015.08.19: (AUG 19TH, WED, 2015)
+-----------------------------------------------------------------------------**/
+@ContextConfiguration(classes=JAVA_CONFIG.class) //<<page 37 of SIA
+public class RUN_THIS_AS_JAVA_APPLICATION {
+
+	public static void main(String[] args){
+		
+		System.out.println("ENTERING: MainEntryPoint");
+		
+		//PITFALL: 
+		///////////////////////////////////////////////////////////////////////
+		//If you get the bean like this, you are getting the unwrapped
+		//         version that has no before and after advice applied to it.
+		//AnnotationConfigApplicationContext context = 
+		//		new AnnotationConfigApplicationContext(ADVICE_TAKER.class);
+		//ADVICE_TAKER obj = context.getBean(ADVICE_TAKER.class);
+		///////////////////////////////////////////////////////////////////////
+		
+		AnnotationConfigApplicationContext context =
+				new AnnotationConfigApplicationContext(JAVA_CONFIG.class);
+		ADVICE_TAKER obj = (ADVICE_TAKER) context.getBean("advice_taker_bean");
+		
+		obj.hopefullyNotDoingThisWithoutSupervision();
+		context.close();
+		
+	    System.out.println("EXITING: MainEntryPoint");
+		
+	}//FUNC::END
+}//CLASS::END
+################################################################################
+########################### ADVICE_TAKER.java ##################################
+package sia_04;
+/**Does NOT need @Component on the class to run.
+ * And is NOT an @Aspect, because it is TAKING advice,
+ * not giving advice.
+ * @author jmadison 2015.08.19**/
+public class ADVICE_TAKER{
+	public void hopefullyNotDoingThisWithoutSupervision(){
+		System.out.println("INSIDE: ADVICE_TAKER." + 
+		                   "hopefullyNotDoingThisWithoutSupervision()");
+	}
+}
+################################################################################
+########################### ADVICE_GIVER.java ##################################
+package sia_04;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+
+/**
+ * Based on page 106 of spring in action 4th edition.
+ * If you use @Component in addition to @Aspect, you will get your
+ * advice firing TWICE. Only use @Aspect.
+ * http://stackoverflow.com/questions/28468530
+ * @author jmadison */
+@Aspect
+public class ADVICE_GIVER{
+	 
+
+	@Before("execution(** sia_04.ADVICE_TAKER+."
+			+ "hopefullyNotDoingThisWithoutSupervision(..))")
+	public void BEFORE_ADVICE() {
+		System.out.println("BEFORE_ADVICE!!()");
+	}
+	
+	@AfterReturning("execution(** sia_04.ADVICE_TAKER."
+			+ "hopefullyNotDoingThisWithoutSupervision(..))")
+	public void AFTER_ADVICE() {
+		System.out.println("AFTER_ADVICE()");
+	}
+	
+	@AfterThrowing("execution(** sia_04.ADVICE_TAKER."
+			+ "hopefullyNotDoingThisWithoutSupervision(..))")
+	public void ERROR_ADVICE() {
+		System.out.println("ERROR_ADVICE()");
+	}
+}
+################################################################################
+############################ JAVA_CONFIG.java ##################################
+package sia_04;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+/**Based on page 109 of Spring In Action 4Th Edition.
+ * @ComponentScan("sia_04") is unnecessary for this hello-world project.
+ * And it actually can cause your advice to fire TWICE if you annotate
+ * something with both @Component and @Aspect
+ * 
+ * IT WORKS! And I don't know why...
+ * @Configuration is also not necessary for this project to run.
+ * Honestly don't know enough to know why. Since it seems like a java config
+ * class should always be annotated with @Configuration.
+ * Maybe it is needed when there is some type of auto-scanning for multiple 
+ * configurations?
+ * In RUN_THIS_AS_JAVA_APPLICATION I explicitly call upon this config class.
+ * Maybe that is why @Configuration is not needed.
+ * 
+ * @author jmadison **/
+@EnableAspectJAutoProxy
+public class JAVA_CONFIG {
+	
+	@Bean(name="advice_giver_bean")
+	public ADVICE_GIVER advice_giver() {
+		return new ADVICE_GIVER();
+	}
+	
+	@Bean(name="advice_taker_bean")
+	public ADVICE_TAKER advice_taker() {
+		return new ADVICE_TAKER();
+	}
+}//CLASS:JAVA_CONFIG:END
+################################################################################
+################################################################################

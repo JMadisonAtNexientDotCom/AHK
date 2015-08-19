@@ -1,0 +1,17 @@
+// BookPage 121-122 of SpringInAction 4Th Edition. 
+package concert;
+import org.aspectj.lang.ProceedingJoinPoint;
+public class Audience {
+
+	public void watchPerformance(ProceedingJoinPoint jp) {
+		try{
+				System.out.println("SILENCE PHONES!");
+				System.out.println("TAKE SEATS!");                             #######
+				jp.proceed(); //<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<PROCEED
+				System.out.println("CLAP CLAP CLAP!");                         #######
+			}catch(Throwable e){
+				System.out.println(" **DEMANDS REFUND** ");
+			}//END:TRY
+	}//FUNC:watchPerformance:END
+
+}//CLASS::END

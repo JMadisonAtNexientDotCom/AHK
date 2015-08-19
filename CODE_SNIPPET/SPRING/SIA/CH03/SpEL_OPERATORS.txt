@@ -1,0 +1,7 @@
+Arithmetic +, -, *, /, %, ^
+Comparison <, lt, >, gt, ==, eq, <=, le, >=, ge
+Logical and, or, not, |
+Conditional ?: (ternary), ?: (Elvis)
+Regular expression matches
+#{1} //most basic spell expression.
+T(java.lang.Math).random() //access static classes with T()

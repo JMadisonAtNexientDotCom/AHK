@@ -1,0 +1,13 @@
+<!-- From BookPage122 of SpringInAction4ThEdition -->
+<aop:config>
+	<aop:aspect ref="audience">
+		<aop:pointcut
+		id="performance"
+		expression="execution(** concert.Performance.perform(..))" />
+		
+		<aop:around
+		pointcut-ref="performance"
+		method="watchPerformance"/>
+		
+	</aop:aspect>
+</aop:config>

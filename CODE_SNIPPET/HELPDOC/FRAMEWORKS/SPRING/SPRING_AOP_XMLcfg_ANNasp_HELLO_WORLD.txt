@@ -1,0 +1,119 @@
+Example project:
+SPRING + AOP HelloWorld project:
+Using java annotated aspects and xml config:
+By: John Mark Isaac Madison 2015.08.19
+
+################################################################################
+####################### MAIN_ENTRY_POINT.java ##################################
+package sia_ch04;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+/**45678901234567890123456789012345678901234567890123456789012345678901234567890
+-------------------------------------HEADER-------------------------------------
+Putting to use what I learned from spring in action 4th edition, chapter 04
+XML Config + Java Annotated Aspects, Hello World:
+
+You will need:
+1. Spring Libs:
+    spring-expression-#.#.#.jar
+    spring-aop
+    spring-aspects
+    spring-beans
+    spring-context
+    spring-context-support
+    spring-core
+     
+2. AOP Libs:
+	aopalliance-#.jar  //NOT aopalliance-alpha1 
+	apsectjweaver
+	aspectjrt
+	aspectj
+	
+3. commons-logging-#.#.jar
+	
+@author JMadison
+@created 2015.08.18
+-----------------------------------------------------------------------------**/
+public class MAIN_ENTRY_POINT {
+	public static void main(String[] args){
+		
+		System.out.println("ENTERING: MainEntryPoint");
+		
+		AbstractApplicationContext context = null;
+		context = new ClassPathXmlApplicationContext("Beans.xml");
+		I_NEED_ADVICE obj = (I_NEED_ADVICE) context.
+		                    getBean("THIS_BEAN_NEEDS_ADVICE");
+		obj.iWasAdvisedAboutThis();
+		context.close();
+		
+		System.out.println("EXITING: MainEntryPoint");
+		
+	}//FUNC:main:END
+}//CLASS:Main::END
+################################################################################
+########################## I_NEED_ADVICE.java ##################################
+package sia_ch04;
+public class I_NEED_ADVICE {
+
+	public void iWasAdvisedAboutThis(){
+		System.out.println("I WAS ADVISED ABOUT THIS!!!");
+	}
+}
+################################################################################
+######################### I_GIVE_ADVICE.java ###################################
+package sia_ch04;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
+/**45678901234567890123456789012345678901234567890123456789012345678901234567890
+-------------------------------------HEADER-------------------------------------
+An ASPECT that gives advice to I_NEED_ADVICE.iWasAdvisedAboutThis()
+Most of this code based on page 111 of Spring In Action 4th Edtion.
+@author jmadison
+-----------------------------------------------------------------------------**/
+@Aspect
+public class I_GIVE_ADVICE {
+	
+	//The function can have whatever name you want, but
+	//It would be good to choose name that makes sense.
+	@Pointcut("execution(* sia_ch04.I_NEED_ADVICE.iWasAdvisedAboutThis(..))")
+	public void ADVICE_POINTCUT() {} 
+	
+	@Around(value = "ADVICE_POINTCUT()")
+	public void giveAroundAdvise(ProceedingJoinPoint jp) {
+		try {
+		System.out.println("MY ADVICE: DO IT!");
+		jp.proceed();
+		System.out.println("MY ADVICE: YOU DID A GOOD JOB!");
+		} catch (Throwable e) {
+		System.out.println("MY ADVICE: YOU DONE MESSED UP.");
+		}
+	}//FUNC::END
+}//CLASS::END
+################################################################################
+############################# Beans.xml ########################################
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+		http://www.springframework.org/schema/aop 
+   		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd 
+   		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- So mainEntryPoint.java can load the HelloWorld.java class -->
+	<bean id="THIS_BEAN_NEEDS_ADVICE" class="sia_ch04.I_NEED_ADVICE" />
+	
+	<!-- Declares our advising aspect -->
+	<bean id="I_GIVE_ADVICE" class="sia_ch04.I_GIVE_ADVICE" />
+	
+	<!-- You need autoproxy here!! -->
+	<aop:aspectj-autoproxy />
+</beans>
+################################################################################
+################################################################################

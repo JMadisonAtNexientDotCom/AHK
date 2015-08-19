@@ -1,0 +1,1 @@
+@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
