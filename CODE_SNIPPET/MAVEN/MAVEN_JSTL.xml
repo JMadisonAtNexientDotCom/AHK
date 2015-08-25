@@ -1,0 +1,14 @@
+<!-- ||||||||  JSTL SUPPORT ||||||||||||||||||| -->
+<!-- http://www.journaldev.com/2090/
+     jstl-tutorial-with-examples-jstl-core-tags -->
+<dependency>
+    <groupId>jstl</groupId>
+    <artifactId>jstl</artifactId>
+    <version>1.2</version>
+</dependency>
+<dependency>
+    <groupId>taglibs</groupId>
+    <artifactId>standard</artifactId>
+    <version>1.1.2</version>
+</dependency>
+<!-- |||||||||||||||||||||||||||||||||||||||||| -->

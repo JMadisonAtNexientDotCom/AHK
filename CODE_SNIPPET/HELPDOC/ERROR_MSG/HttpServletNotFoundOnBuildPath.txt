@@ -1,0 +1,14 @@
+
+<ERROR>
+The superclass "javax.servlet.http.HttpServlet" 
+was not found on the Java Build Path
+</ERROR>
+
+http://stackoverflow.com/questions/22756153/
+Project Properties --> |>Project Facets<| --> /Runtimes\ --> [X]ApacheTomCat
+This error indicates that http-servlet is not available in the project class 
+path, once we add target-runtime to the project , http-servlet 
+will be available in the project class-path.
+
+Alternatively, but a worse solution I think:
+Include servlet-api-3.1.jar in your dependencies.

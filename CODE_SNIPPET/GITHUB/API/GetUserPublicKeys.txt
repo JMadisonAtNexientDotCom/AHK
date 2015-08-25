@@ -1,0 +1,6 @@
+https://developer.github.com/v3/users/keys/#list-public-keys-for-a-user
+GET /users/:username/keys
+
+https://api.github.com/users/JMadisonAtNexientDotCom/keys
+Interesting... It's an API... But no query string?
+

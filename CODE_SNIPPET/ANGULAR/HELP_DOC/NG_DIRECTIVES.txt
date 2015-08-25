@@ -1,0 +1,9 @@
+AngularJS extends HTML with ng-directives.
+ng-app   directive: defines an AngularJS application.
+ng-model directive: binds the value of HTML controls (input, select, textarea) to application data.
+ng-bind  directive: binds application data to the HTML view. 
+ng-init  directive: initialize AngularJS application variables.
+	EXAMPLE:
+		<div ng-app="" ng-init="firstName='John'">
+		<p>The name is <span ng-bind="firstName"></span></p>
+		</div> 

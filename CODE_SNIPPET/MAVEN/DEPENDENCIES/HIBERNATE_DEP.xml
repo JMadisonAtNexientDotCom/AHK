@@ -1,0 +1,117 @@
+<!-- I found 10 .jar files the my hibernate installation directory. -->
+<!-- ( That directory being: <hibernate_release>/lib/required  )
+<!-- I added these jars to the build path to get my hibernate project working. -->
+<!-- The following 10 Maven dependencies should download those 10 jars for us. -->
+<!--HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH-->
+<!-- HIBERNATE_RELEASE/lib/required #01 of 10 -->
+<!-- Core. Self-explanatory for why you need this import for Hibernate. -->
+<dependency>
+	<groupId>org.hibernate</groupId>
+	<artifactId>hibernate-core</artifactId>
+	<version>5.0.0.Final</version>
+</dependency>
+
+<!-- HIBERNATE_RELEASE/lib/required #02 of 10 -->
+<!-- Enables annotation configuration option for project. -->
+<!-- Without this, you are stuck with XML annotations. -->
+<!-- Unless org.hibernate.javax.persistence brings in annotations too?? -->
+<dependency>
+	<groupId>org.hibernate</groupId>
+	<artifactId>hibernate-commons-annotations</artifactId>
+	<version>3.2.0.Final</version>
+</dependency>
+
+<!-- HIBERNATE_RELEASE/lib/required #03 of 10 -->
+<!-- Library description for antlr?????? (Unknown) -->
+<!-- MVN REPO URL: http://mvnrepository.com/artifact/antlr/antlr/2.7.7 -->
+<!-- JAR FILE NAME: 2.7.7/antlr-2.7.7.jar -->
+<dependency>
+	<groupId>antlr</groupId>
+	<artifactId>antlr</artifactId>
+	<version>2.7.7</version>
+</dependency>
+
+<!-- HIBERNATE_RELEASE/lib/required #04 of 10 -->
+<!-- dom4j: the flexible XML framework for Java -->
+<!-- MVN Repo URL: http://mvnrepository.com/artifact/dom4j/dom4j/1.6.1 -->
+<dependency>
+	<groupId>dom4j</groupId>
+	<artifactId>dom4j</artifactId>
+	<version>1.6.1</version>
+</dependency>
+
+<!-- HIBERNATE_RELEASE/lib/required #05 of 10 -->
+<!-- Hibernate definition of the Java Persistence 2.0 (JSR 317) API.      -->
+<!-- MVN Repo URL: http://mvnrepository.com/artifact/org.hibernate.javax. -->
+<!--               persistence/hibernate-jpa-2.0-api/1.0.1.Final          -->
+<dependency>
+	<groupId>org.hibernate.javax.persistence</groupId>
+	<artifactId>hibernate-jpa-2.0-api</artifactId>
+	<version>1.0.1.Final</version>
+</dependency>
+
+<!-- HIBERNATE_RELEASE/lib/required #06 of 10 -->
+<!-- Java Annotation Indexer  -->
+<!-- MVN Repo URL: http://mvnrepository.com/artifact/org.jboss/jandex/2.0.0.CR1 -->
+<!-- JAR FILE NAME: jandex-2.0.0.CR1.jar -->
+<dependency>
+	<groupId>org.jboss</groupId>
+	<artifactId>jandex</artifactId>
+	<version>2.0.0.CR1</version>
+</dependency>
+
+<!-- HIBERNATE_RELEASE/lib/required #07 of 10 -->
+<!-- avassist (JAVA programming ASSISTant) makes -->
+<!-- Java bytecode manipulation simple.          -->
+<!-- It is a class library for editing bytecodes in Java. -->
+<!-- MVN Repo URL: http://mvnrepository.com/artifact/org.javassist/javassist/3.20.0-GA -->
+<!-- JAR FILE NAME: javassist-3.20.0-GA.jar --> 
+<dependency>
+	<groupId>org.javassist</groupId>
+	<artifactId>javassist</artifactId>
+	<version>3.20.0-GA</version>
+</dependency>
+
+<!-- HIBERNATE_RELEASE/lib/required #08 of 10 -->
+<!-- The JBoss Logging Framework -->
+<!-- MVN REPO URL: http://mvnrepository.com/artifact/org.jboss.logging/jboss-logging/3.3.0.Final -->
+<!-- JAR FILE NAME IN Hibernate/lib/required: jboss-logging-3.1.3.GA.jar -->
+<!-- Actual JAR FILE NAME of this dependency: jboss-logging-3.3.0.Final.jar -->
+<dependency>
+	<groupId>org.jboss.logging</groupId>
+	<artifactId>jboss-logging</artifactId>
+	<version>3.3.0.Final</version>
+</dependency>
+
+<!-- HIBERNATE_RELEASE/lib/required #09 of 10 -->
+<!-- JBoss Logging I18n Annotations -->
+<!-- MVN REPO URL: http://mvnrepository.com/artifact/org.jboss.logging/jboss-logging-annotations/2.0.1.Final -->
+<!-- JAR FILE NAME in Hibernate/lib/required: jboss-logging-annotations-1.2.0.Beta1.jar -->
+<!-- Actual JAR FILE NAME of this dependency: jboss-logging-annotations-2.0.1.Final.jar -->
+<dependency>
+	<groupId>org.jboss.logging</groupId>
+	<artifactId>jboss-logging-annotations</artifactId>
+	<version>2.0.1.Final</version>
+</dependency>
+
+<!-- HIBERNATE_RELEASE/lib/required #10 of 10 -->
+<!-- The Java Transaction 1.1 API classes -->
+<!-- MVN REPO URL: http://mvnrepository.com/artifact/org.jboss.spec.javax.transaction/jboss-transaction-api_1.1_spec/1.0.1.Final -->
+<!-- JAR FILE NAME: jboss-transaction-api_1.1_spec-1.0.1.Final.jar -->
+<dependency>
+	<groupId>org.jboss.spec.javax.transaction</groupId>
+	<artifactId>jboss-transaction-api_1.1_spec</artifactId>
+	<version>1.0.1.Final</version>
+</dependency>
+<!--HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH-->
+
+<!-- Honestly, I don't know if commons logging is required for hibernate or not. -->
+<!-- But it seems to be required for most things I do, so I will include it. -->
+<!-- MVN REPO URL: http://mvnrepository.com/artifact/commons-logging/commons-logging/1.2 -->
+<!--H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H-->
+<dependency>
+	<groupId>commons-logging</groupId>
+	<artifactId>commons-logging</artifactId>
+	<version>1.2</version>
+</dependency>
+<!--H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H?H-->

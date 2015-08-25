@@ -1,0 +1,12 @@
+<dependency>
+	<groupId>   XXXXXXXX</groupId>
+	<artifactId>XXXXXXXX</artifactId>
+	<version>   #.#.#   </version>
+	<!-- Choose One -->
+	<scope>   compile   </scope> <!-- Default, used if nothing specified.      -->
+	<scope>   provided  </scope> <!-- JDK provides dependency at runtime.      -->
+	<scope>   runtime   </scope> <!-- Needed for runtime, but not compilation. -->
+	<scope>   test      </scope> <!-- Not required for normal use.             -->
+	<scope>   system    </scope> <!-- You provide the .JAR file manually       -->
+	<scope>   import    </scope> <!-- Replaces dependencies using another POM  -->
+</dependency>

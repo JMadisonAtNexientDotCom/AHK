@@ -1,0 +1,8 @@
+	<servlet>
+			<servlet-name>helloServlet</servlet-name>
+			<servlet-class>crunch.HelloWorld</servlet-class>
+	</servlet>
+	<servlet-mapping>
+			<servlet-name>helloServlet</servlet-name>
+			<url-pattern>/hello</url-pattern>
+	</servlet-mapping>

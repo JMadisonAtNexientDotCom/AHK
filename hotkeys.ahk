@@ -13,22 +13,31 @@ TheList= fora,bena,iana
  
   ;As nice as it would be to use a shortcut file... lookups this way are SLOW!
         ; Create the array, initially empty:
-        SNIPPET_SHORTCUT_ARRAY := Object()
+        SNIPPET_SHORTCUT_ARRAY     := Object()
+				ANG_SNIPPET_SHORTCUT_ARRAY := Object()
+				IMP_SNIPPET_SHORTCUT_ARRAY := Object()
+				JSP_JSTL_CS_SHORTCUT_ARRAY := Object() ;//CS == Code Snippet.
 				
 				;//like SNIPPET_SHORTCUT_ARRAY, 
 				;//but has "]" symbols at the end of the words.
-				SNIPPET_SHORTCUT_ARRAY_MATCHLIST = test],try]
+				SNIPPET_SHORTCUT_ARRAY_MATCHLIST     = test],try]
+				ANG_SNIPPET_SHORTCUT_ARRAY_MATCHLIST = test2>,try2>
+				IMP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST = test2>,try2>
+				JSP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST = test4>,try4> ;//JSP & JSTL
 				
 				;//Create associative array that will map shortcut names to functions.
-				SNIPPET_SHORTCUT_ASSOC_ARRAY := {"testKey":"testValue"}
+				SNIPPET_SHORTCUT_ASSOC_ARRAY     := {"testKey":"testValue"}
+				ANG_SNIPPET_SHORTCUT_ASSOC_ARRAY := {"testKey":"testValue"}
+				IMP_SNIPPET_SHORTCUT_ASSOC_ARRAY := {"testKey":"testValue"}
+				JSP_SNIPPET_SHORTCUT_ASSOC_ARRAY := {"testKey":"testValue"}
 				
-				ARR_TEST = for],while],main],ps],pv],cs],cdplayerconfig],compactdisc],sgtpeppers],sia_listing],cdplayertest]
+				;//ARR_TEST = for],while],main],ps],pv],cs],cdplayerconfig],compactdisc],sgtpeppers],sia_listing],cdplayertest]
  
         ;//BUGFIX:
 				;//declare these outside of the loop,
 				;//or they will be constantly cleared before they are used.
 				theShortCutNameKey := "empty"
-				theFuncNameValue := "emptyFunc"
+				theFuncNameValue   := "emptyFunc"
  
         ; Write to the array:
         ; This loop retrieves each line from the file, one at a time.
@@ -39,55 +48,437 @@ TheList= fora,bena,iana
 					;//make a function lookup table so
 					;//we can get rid of horrible long chain of else-if statements.
 					
-				
-                        ;base 1 calculations for indexes in file
-                        loopcounter++
-                        if(loopcounter>3)
-                        {
-                          loopcounter = 1
-                        }
-                       
-											  if(loopcounter = 1)
-												{
-													;//Gather the SHORCUT FUNCTION NAME.
-													theFuncNameValue = %A_LoopReadLine%   ;//<<correct. use "=" not ":="
-													;//MsgBox %theFuncNameValue%
-												}else
-                        if(loopcounter = 2)
-                        {
-												  theShortCutNameKey = %A_LoopReadLine%
-                          SNIPPET_SHORTCUT_ARRAY.Insert(A_LoopReadLine) ; Append this line to the array.
-													SNIPPET_SHORTCUT_ARRAY_MATCHLIST = %SNIPPET_SHORTCUT_ARRAY_MATCHLIST%,%A_LoopReadLine%] ;//concatinate a list. And put bracket at end.
-													
-													;//assemble the current function shortcut key
-													;//and function name together into associative array
-													;//SNIPPET_SHORTCUT_ASSOC_ARRAY[theKey] := theFuncName <<wrong way to do it.
-													SNIPPET_SHORTCUT_ASSOC_ARRAY.Insert(theShortCutNameKey,theFuncNameValue)
-													;//MsgBox %theShortCutNameKey% %theFuncNameValue%
-                        }
-												
-												;//MsgBox %theShortCutNameKey% %theFuncNameValue%
+					;base 1 calculations for indexes in file
+					loopcounter++
+					if(loopcounter>3)
+					{
+						loopcounter = 1
+					}
+				 
+					if(loopcounter = 1)
+					{
+						;//Gather the SHORCUT FUNCTION NAME.
+						theFuncNameValue = %A_LoopReadLine%   ;//<<correct. use "=" not ":="
+						;//MsgBox %theFuncNameValue%
+					}else
+					if(loopcounter = 2)
+					{
+						theShortCutNameKey = %A_LoopReadLine%
+						SNIPPET_SHORTCUT_ARRAY.Insert(A_LoopReadLine) ; Append this line to the array.
+						SNIPPET_SHORTCUT_ARRAY_MATCHLIST = %SNIPPET_SHORTCUT_ARRAY_MATCHLIST%,%A_LoopReadLine%] ;//concatinate a list. And put bracket at end.
+						
+						;//assemble the current function shortcut key
+						;//and function name together into associative array
+						;//SNIPPET_SHORTCUT_ASSOC_ARRAY[theKey] := theFuncName <<wrong way to do it.
+						SNIPPET_SHORTCUT_ASSOC_ARRAY.Insert(theShortCutNameKey,theFuncNameValue)
+						;//MsgBox %theShortCutNameKey% %theFuncNameValue%
+					}
+					
+					;//MsgBox %theShortCutNameKey% %theFuncNameValue%
 												
         } ;END OF LOOP
 				
+				;//ANGULAR SHORTCUTS READING FILE. Horrible code duplication, I know.... But gotta get this done fast.
+				;//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+				loopcounter :=0
+        Loop, Read, CODE_SNIPPET\ANGULAR_JS_KEY_MAP.txt
+        {
+				
+					;//make a function lookup table so
+					;//we can get rid of horrible long chain of else-if statements.
 					
-	MsgBox "Initialized:"%SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
+					;base 1 calculations for indexes in file
+					loopcounter++
+					if(loopcounter>3)
+					{
+						loopcounter = 1
+					}
+				 
+					if(loopcounter = 1)
+					{
+						;//Gather the SHORCUT FUNCTION NAME.
+						theFuncNameValue = %A_LoopReadLine%   ;//<<correct. use "=" not ":="
+						;//MsgBox %theFuncNameValue%
+					}else
+					if(loopcounter = 2)
+					{
+						theShortCutNameKey = %A_LoopReadLine%
+						ANG_SNIPPET_SHORTCUT_ARRAY.Insert(A_LoopReadLine) ; Append this line to the array.
+						ANG_SNIPPET_SHORTCUT_ARRAY_MATCHLIST = %ANG_SNIPPET_SHORTCUT_ARRAY_MATCHLIST%,%A_LoopReadLine%] ;//concatinate a list. And put bracket at end.
+						ANG_SNIPPET_SHORTCUT_ASSOC_ARRAY.Insert(theShortCutNameKey,theFuncNameValue)
+					}
+					
+					;//MsgBox %theShortCutNameKey% %theFuncNameValue%
+												
+        } ;END OF LOOP
+				;//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+				
+				;//IMPORT SHORTCUTS READING FILE. Horrible code duplication, I know....
+				;//IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+				loopcounter :=0
+        Loop, Read, CODE_SNIPPET\IMPORT_MAPPING.txt
+        {
+				
+					;//make a function lookup table so
+					;//we can get rid of horrible long chain of else-if statements.
+					
+					;base 1 calculations for indexes in file
+					loopcounter++
+					if(loopcounter>3)
+					{
+						loopcounter = 1
+					}
+				 
+					if(loopcounter = 1)
+					{
+						;//Gather the SHORCUT FUNCTION NAME.
+						theFuncNameValue = %A_LoopReadLine%   ;//<<correct. use "=" not ":="
+						;//MsgBox %theFuncNameValue%
+					}else
+					if(loopcounter = 2)
+					{
+						theShortCutNameKey = %A_LoopReadLine%
+						IMP_SNIPPET_SHORTCUT_ARRAY.Insert(A_LoopReadLine) ; Append this line to the array.
+						IMP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST = %IMP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST%,%A_LoopReadLine%] ;//concatenate a list. And put bracket at end.
+						IMP_SNIPPET_SHORTCUT_ASSOC_ARRAY.Insert(theShortCutNameKey,theFuncNameValue)
+					}
+					
+					;//MsgBox %theShortCutNameKey% %theFuncNameValue%
+												
+        } ;END OF LOOP
+				;//IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+				
+				;//JSTL and JSP shortcuts:
+				;//JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ
+				loopcounter :=0
+        Loop, Read, CODE_SNIPPET\JSP_JSTL_MAPPING.txt
+        {
+				
+					;//make a function lookup table so
+					;//we can get rid of horrible long chain of else-if statements.
+					
+					;base 1 calculations for indexes in file
+					loopcounter++
+					if(loopcounter>3)
+					{
+						loopcounter = 1
+					}
+				 
+					if(loopcounter = 1)
+					{
+						;//Gather the SHORCUT FUNCTION NAME.
+						theFuncNameValue = %A_LoopReadLine%   ;//<<correct. use "=" not ":="
+						;//MsgBox %theFuncNameValue%
+					}else
+					if(loopcounter = 2)
+					{
+						theShortCutNameKey = %A_LoopReadLine%
+						JSP_SNIPPET_SHORTCUT_ARRAY.Insert(A_LoopReadLine) ; Append this line to the array.
+						JSP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST = %JSP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST%,%A_LoopReadLine%] ;//concatenate a list. And put bracket at end.
+						JSP_SNIPPET_SHORTCUT_ASSOC_ARRAY.Insert(theShortCutNameKey,theFuncNameValue)
+					}
+					
+					;//MsgBox %theShortCutNameKey% %theFuncNameValue%
+												
+        } ;END OF LOOP
+				;//JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ
+				
+				
+				
+					
+	;//MsgBox "Initialized:"%SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
+	MsgBox "Initialized:"%IMP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
+	;//MsgBox %SNIPPET_SHORTCUT_ARRAY%
  
 return
 }
  
 SetDefaults(void)
 
-^j::
+;// http://www.autohotkey.com/board/topic/99092-remap-colon-key-help/
+; `: will use for ":" key.
+;// http://www.autohotkey.com/board/topic/80246-shift-key-bind/
+; Tilde "~" makes key fire on press rather than release.
+;// http://superuser.com/questions/425873/replace-with-and-with-using-autohotkey
+
+
+
+
+ ;//  ~`;::
+ *$;::
+ {
+ ;;MsgBox, "hello"
+ 	GetKeyState, state, Shift
+	myState = %state%
+ 	;;MsgBox, "STATE===["%myState%
+	
+ 	 
+ 	 if(myState="D")
+ 	 {
+		  send,{:}
+ 			ON_FULL_COLON_PRESS()
+ 		}
+ 		else
+ 		{
+		;SEND, "NOT DOWN"
+		send,{;}
+ 		ON_SEMI_COLON_PRESS()
+ 		} 
+     return
+ }
+
+ 
+ON_FULL_COLON_PRESS()
 {
-	Send, testing auto hot key...
+	global JSP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST
+	Input, UserInput, V T5 L20 C, {enter}{esc}{tab}{backspace}!, %JSP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
+	JSP_JSTL_SHORTCUT_TRY(UserInput)
 	return
 }
+
+ON_SEMI_COLON_PRESS()
+{
+	
+	return
+}
+
+~!::
+{
+	;//is not able to work before text becomes un-highlighted.
+	;//send ^c ;//So you can convert highlighted text.
+
+	global IMP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST
+	;//MsgBox "Angular Will Go Here"
+	Input, UserInput, V T5 L20 C, {enter}{esc}{tab}{backspace}!, %IMP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
+	IMPORT_SHORTCUT_TRY(UserInput)
+	;//MsgBox "userInput==" %UserInput%
+}
+
+IMPORT_SHORTCUT_TRY(UserInput)
+{
+	;//Declare the globals you are using:
+	;//http://www.autohotkey.com/board/topic/87597-help-me-use-global-variables/
+	global IMP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST
+	global IMP_SNIPPET_SHORTCUT_ASSOC_ARRAY
+	
+	;//msgbox %UserInput%
+	;//msgbox MATCHLIST==%SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
+	
+	bailOut = HAS_EXIT_WORTHY_ERROR(ErrorLevel)
+	if(bailOut = true)
+	{
+		;//msgbox "CANCELLED"
+		return
+	}
+	
+	If InStr(ErrorLevel, "EndKey:")
+	{
+			;//MsgBox, You entered "%UserInput%" and terminated the input with %ErrorLevel%.
+			exclaim = {!}
+			exclaim2 = %exclaim%
+			if(ErrorLevel = "EndKey:!" )
+			{
+				global IMP_SNIPPET_SHORTCUT_ASSOC_ARRAY ;//declare again for this scope?
+				;//MsgBox, Meow
+				;//try to convert clipboard contents
+				ClipBoard = %ClipBoard%
+				SubInput = %ClipBoard%
+				
+				;//MsgBox, %IMP_SNIPPET_SHORTCUT_ASSOC_ARRAY%
+				possibleFileName:= IMP_SNIPPET_SHORTCUT_ASSOC_ARRAY[SubInput]
+				possibleFileNameLen:=StrLen(possibleFileName)
+				;//MsgBox, "SubInput Is" %SubInput%
+				if(possibleFileNameLen > 0)
+				{
+					DELETE_WORD("!!",0)
+					PASTE_TEXT_FRIENDLY_FILES_OR_OPEN_OTHERWISE(possibleFileName)
+				}
+				else
+				{
+					return
+				}
+				
+			}
+			else
+			{
+			return
+			}
+	}
+	; Otherwise, a match was found.
+	
+	
+	
+  ;//call function by unfiltered user input:
+	;///////////////////////////////////////////////////////////////////
+		;Strip the ending brace "]" off of our matches using
+		;StrLen and SubStr methods.
+		;Then do matches against "SubInput" rather than "UserInput"
+		Len:=StrLen(UserInput) ;getting correct length of 4 for "for]"
+		LenToUse:=Len-1
+		;MsgBox %LenToUse%
+		SubInput:=SubStr(UserInput,1, LenToUse)
+		;//MsgBox SubInput==%SubInput%
+		
+		;//MsgBox "ASSOC ARR IS==" %IMP_SNIPPET_SHORTCUT_ASSOC_ARRAY%
+		
+		possibleFileName:= IMP_SNIPPET_SHORTCUT_ASSOC_ARRAY[SubInput]
+		;MsgBox % possibleFileName
+		possibleFileNameLen:=StrLen(possibleFileName)
+		;//MsgBox % possibleFileNameLen
+		
+		;//if key exists in dictionary, call the function
+		;//that it is paired with, then finalize.
+		if(possibleFileNameLen > 0)
+		{
+			DELETE_WORD(SubInput,2)
+			PASTE_TEXT_FRIENDLY_FILES_OR_OPEN_OTHERWISE(possibleFileName)
+		}
+		else
+		{
+			;//MsgBox, "NOT FOUND: CARROT_CAKE"
+		}
+  ;////////////////////////////////////////////////////////////////////
+		
+	return
+}
+
+~<::
+{
+  global ANG_SNIPPET_SHORTCUT_ARRAY_MATCHLIST
+	;//MsgBox "Angular Will Go Here"
+	Input, UserInput, V T5 L20 C, {enter}{esc}{tab}{backspace}, %ANG_SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
+	ANGULAR_SHORTCUT_TRY(UserInput)
+	;//MsgBox "userInput==" %UserInput%
+}
+
+JSP_JSTL_SHORTCUT_TRY(UserInput)
+{
+;//Declare the globals you are using:
+	;//http://www.autohotkey.com/board/topic/87597-help-me-use-global-variables/
+	global JSP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST
+	global JSP_SNIPPET_SHORTCUT_ASSOC_ARRAY
+	
+	;//msgbox %UserInput%
+	;//msgbox MATCHLIST==%SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
+	
+	bailOut = HAS_EXIT_WORTHY_ERROR(ErrorLevel)
+	if(bailOut = true)
+	{
+		;//msgbox "CANCELLED"
+		return
+	}
+	
+	If InStr(ErrorLevel, "EndKey:")
+	{
+			;MsgBox, You entered "%UserInput%" and terminated the input with %ErrorLevel%.
+			return
+	}
+	; Otherwise, a match was found.
+	
+	
+	
+  ;//call function by unfiltered user input:
+	;///////////////////////////////////////////////////////////////////
+		;Strip the ending brace "]" off of our matches using
+		;StrLen and SubStr methods.
+		;Then do matches against "SubInput" rather than "UserInput"
+		Len:=StrLen(UserInput) ;getting correct length of 4 for "for]"
+		LenToUse:=Len-1
+		;MsgBox %LenToUse%
+		SubInput:=SubStr(UserInput,1, LenToUse)
+		;//MsgBox SubInput==%SubInput%
+		
+		possibleFileName:= JSP_SNIPPET_SHORTCUT_ASSOC_ARRAY[SubInput]
+		;MsgBox % possibleFileName
+		possibleFileNameLen:=StrLen(possibleFileName)
+		;//MsgBox % possibleFileNameLen
+		
+		;//if key exists in dictionary, call the function
+		;//that it is paired with, then finalize.
+		if(possibleFileNameLen > 0)
+		{
+			DELETE_WORD(SubInput,2)
+			PASTE_TEXT_FRIENDLY_FILES_OR_OPEN_OTHERWISE(possibleFileName)
+		}
+		else
+		{
+			;//MsgBox, "NOT FOUND: BROCOLLI"
+		}
+  ;////////////////////////////////////////////////////////////////////
+		
+	return
+} ;;;//JSTL & JSP shortcuts.
+
+ANGULAR_SHORTCUT_TRY(UserInput)
+{
+	;//Declare the globals you are using:
+	;//http://www.autohotkey.com/board/topic/87597-help-me-use-global-variables/
+	global ANG_SNIPPET_SHORTCUT_ARRAY_MATCHLIST
+	global ANG_SNIPPET_SHORTCUT_ASSOC_ARRAY
+	
+	;//msgbox %UserInput%
+	;//msgbox MATCHLIST==%SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
+	
+	bailOut = HAS_EXIT_WORTHY_ERROR(ErrorLevel)
+	if(bailOut = true)
+	{
+		;//msgbox "CANCELLED"
+		return
+	}
+	
+	If InStr(ErrorLevel, "EndKey:")
+	{
+			;MsgBox, You entered "%UserInput%" and terminated the input with %ErrorLevel%.
+			return
+	}
+	; Otherwise, a match was found.
+	
+	
+	
+  ;//call function by unfiltered user input:
+	;///////////////////////////////////////////////////////////////////
+		;Strip the ending brace "]" off of our matches using
+		;StrLen and SubStr methods.
+		;Then do matches against "SubInput" rather than "UserInput"
+		Len:=StrLen(UserInput) ;getting correct length of 4 for "for]"
+		LenToUse:=Len-1
+		;MsgBox %LenToUse%
+		SubInput:=SubStr(UserInput,1, LenToUse)
+		;//MsgBox SubInput==%SubInput%
+		
+		possibleFileName:= ANG_SNIPPET_SHORTCUT_ASSOC_ARRAY[SubInput]
+		;MsgBox % possibleFileName
+		possibleFileNameLen:=StrLen(possibleFileName)
+		;//MsgBox % possibleFileNameLen
+		
+		;//if key exists in dictionary, call the function
+		;//that it is paired with, then finalize.
+		if(possibleFileNameLen > 0)
+		{
+			DELETE_WORD(SubInput,2)
+			PASTE_TEXT_FRIENDLY_FILES_OR_OPEN_OTHERWISE(possibleFileName)
+		}
+		else
+		{
+			;//MsgBox, "NOT FOUND: CHEETOS"
+		}
+  ;////////////////////////////////////////////////////////////////////
+		
+	return
+} ;//angular shortcut try.
+
+
+
+
+
+
+
+
 
  ~[::
  {
  ;//MSGBox "user input test..."
- 	Input, UserInput, V T5 L20 C, {enter}{esc}{tab}{backspace}, %SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
+ 	Input, UserInput, V T5 L30 C, {enter}{esc}{tab}{backspace}, %SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
  	BRACKET_SHORTCUT_TRY(UserInput)
 	return
  }
@@ -152,7 +543,7 @@ BRACKET_SHORTCUT_TRY(UserInput)
 		}
 		else
 		{
-			MsgBox, "NOT FOUND"
+			MsgBox, "APPLE PIE AND CAKE (NOT FOUND)"
 		}
   ;////////////////////////////////////////////////////////////////////
 		
@@ -161,7 +552,7 @@ BRACKET_SHORTCUT_TRY(UserInput)
 
 ~>::
 {
-	Input, UserInput, V T5 L10 C, {enter}.{esc}{tab}{space}, dev,java,hibernate,google,rapid,chrono,clarizen,asana,eclipse,notepad,joblog,gitbash,github,welcome,paint,hotkeys,wamp,word,money,ontop
+	Input, UserInput, V T5 L10 C, {enter}.{esc}{tab}{space}, dev,java,hibernate,google,rapid,chrono,clarizen,asana,eclipse,notepad,joblog,gitbash,github,welcome,paint,hotkeys,wamp,word,money,ontop,nts
 	if (ErrorLevel = "Max")
 	{
 	    ;;this will conflict with HTML coding, so comment out the msg box.
@@ -194,6 +585,11 @@ BRACKET_SHORTCUT_TRY(UserInput)
 	{
 			Send, {backspace 5}
 			Run, "C:\DEV"
+	}
+	if (UserInput = "nts")
+	{
+		DELETE_WORD("nts",1)
+		Run, "C:\DEV\REPO\GIT\Nexient-TestingService"
 	}
 	else if(UserInput = "ontop")
 	{
@@ -362,4 +758,23 @@ DELETE_WORD(inWord, extra){
 	{
 		Send, {backspace}
 	}
+}
+
+;//has an error that should make us bail out from the
+;//function that is currently taking user input?
+HAS_EXIT_WORTHY_ERROR(ERROR_LEVEL){
+	if (ErrorLevel = "Max")
+	{
+	  return true
+	}
+	if (ErrorLevel = "Timeout")
+	{
+		return true
+	}
+	if (ErrorLevel = "NewInput")
+	{
+		return true
+	}
+	
+	return false
 }
