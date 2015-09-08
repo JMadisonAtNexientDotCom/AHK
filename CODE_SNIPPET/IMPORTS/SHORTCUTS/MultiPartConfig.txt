@@ -1,0 +1,3 @@
+//OPEN SHIFT servlet tutorial wants you to use this annotation.
+//https://forums.openshift.com/how-to-upload-and-serve-files-using-java-servlets-on-openshift
+import javax.servlet.annotation.MultipartConfig; 

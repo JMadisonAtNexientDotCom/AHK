@@ -1,0 +1,26 @@
+
+PUTTY SSH:
+gear deploy HEAD
+
+WINDOWS CMD:
+rhc app-configure j1clone01 --deployment-branch MASTER
+rhc show-app j1clone01
+
+remote = origin
+	merge = refs/heads/MASTER
+
+remote = origin
+	merge = refs/heads/MASTER
+error: Ref refs/remotes/origin/master is at 4663e0fd738595caa28b2107bb8811a7ecb0356d but expected 
+4d3ecc589e43a46e7a0accb7a393ee3ce5c24fdd
+
+git branch --set-upstream master [host]
+
+55e4598189f5cfcf3c000008@j1clone01-madnamespace.rhcloud.com
+
+
+
+Sometimes, you might want to delete a remote branch.
+Espcially if you have two branches that are identical except for case.
+That can cause some conflicts.
+https://git-scm.com/book/en/v2/Git-Branching-Remote-Branches

@@ -1,0 +1,1 @@
+import org.hibernate.criterion.Restrictions;          //used to fetch an entity.

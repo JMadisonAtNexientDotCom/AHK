@@ -1,0 +1,21 @@
+
+
+    <!-- The basic hello-servlet code that goes in web.xml -->
+		<!-- Ripped out of the the tomcat sample.war file.     -->
+		<!-- ################################################# -->
+		<display-name>Hello, World Application</display-name>
+    <description>
+		This is a simple web application with a source code organization
+		based on the recommendations of the Application Developer's Guide.
+    </description>
+
+    <servlet>
+        <servlet-name>HelloServlet</servlet-name>
+        <servlet-class>mypackage.Hello</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>HelloServlet</servlet-name>
+        <url-pattern>/hello</url-pattern>
+    </servlet-mapping>
+		<!-- ################################################# -->

@@ -1,0 +1,1 @@
+import org.hibernate.Criteria; //used to fetch an entity from database table.

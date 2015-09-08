@@ -1,0 +1,13 @@
+<script>
+//http://www.w3schools.com/angular/tryit.asp?filename=try_ng_intro_controller
+//sample app declaration: 
+//<div ng-app="myApp" ng-controller="myCtrl">
+//sample input binded to firstName: 
+//<input type="text" ng-model="firstName"><br>
+
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope) {
+    $scope.firstName= "John";
+    $scope.lastName= "Doe";
+});
+</script>

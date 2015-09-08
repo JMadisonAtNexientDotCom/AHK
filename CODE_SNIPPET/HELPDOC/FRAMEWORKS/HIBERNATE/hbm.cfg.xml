@@ -1,0 +1,30 @@
+<!-- ############  hbm.cfg.xml (hibernate configuration file.) ############# -->
+<!-- SRC: http://www.java2blog.com/2013/01/                                  -->
+<!-- hibernate-hello-world-example-in-eclipse.html#dR5A6YhkyWLHiXI7.99       -->
+<hibernate-configuration>  
+  
+    <session-factory>  
+  
+        <!-- Database connection settings -->  
+        <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>  
+        <property name="connection.url">jdbc:sqlserver://localhost:1433;database=UserInfo</property>  
+        <property name="connection.username">adminN41IQKj</property>  
+        <property name="connection.password">PB-qwB68u1rC</property>  
+  
+        <!-- JDBC connection pool (use the built-in) -->  
+        <property name="connection.pool_size">1</property>  
+  
+        <!-- SQL dialect -->  
+        <property name="dialect">org.hibernate.dialect.SQLServer2005Dialect</property>  
+  
+        <!-- Echo all executed SQL to stdout -->  
+        <property name="show_sql">true</property>  
+  
+        <!-- Drop and re-create the database schema on startup -->  
+        <property name="hbm2ddl.auto">create</property>  
+  
+        <mapping class="org.arpit.javapostsforlearning.User"></mapping>  
+  
+    </session-factory>  
+  
+</hibernate-configuration>  

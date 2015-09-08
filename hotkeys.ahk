@@ -203,29 +203,33 @@ SetDefaults(void)
 
 
 
-
- ;//  ~`;::
- *$;::
- {
- ;;MsgBox, "hello"
- 	GetKeyState, state, Shift
-	myState = %state%
- 	;;MsgBox, "STATE===["%myState%
-	
- 	 
- 	 if(myState="D")
- 	 {
-		  send,{:}
- 			ON_FULL_COLON_PRESS()
- 		}
- 		else
- 		{
-		;SEND, "NOT DOWN"
-		send,{;}
- 		ON_SEMI_COLON_PRESS()
- 		} 
-     return
- }
+;// When you BAIL OUT of the user input, we want to print a ":" or ";" character
+;// to the screen. So that this code does not disrupt typing of multiple
+;// colons to the screen. Currently it does. So I commented it out, because
+;// I am not using JSTL shortcuts right now.
+;//			 ;~`;::
+;//			 *$;::
+;//			 ;//`;::
+;//			 {
+;//			 ;;MsgBox, "hello"
+;//				GetKeyState, state, Shift
+;//				myState = %state%
+;//				;;MsgBox, "STATE===["%myState%
+;//				
+;//				 
+;//				 if(myState="D")
+;//				 {
+;//						send,{:}
+;//						ON_FULL_COLON_PRESS()
+;//					}
+;//					else
+;//					{
+;//						;SEND, "NOT DOWN"
+;//						send,{;}
+;//						ON_SEMI_COLON_PRESS()
+;//					} 
+;//					 return
+;//			 }
 
  
 ON_FULL_COLON_PRESS()
@@ -487,6 +491,43 @@ ANGULAR_SHORTCUT_TRY(UserInput)
 BRACKET_SHORTCUT_TRY(UserInput)
 ;~[::
 {
+
+  ;//I HAVE NO CLUE WHY THIS NEEDS AN ENTER KEY TO BE INVOKED?? AH...
+	;//It still needs to be in the match list. Even though we are overriding it.
+	;//special case for my SEND_PASTE command:
+	;//sends contents of clipboard. Making it possible
+	;//to paste to command prompt, youtube, and whatever else you need.
+	pasteVar = paste`]
+	;//pasteVar = paste
+	;//msgBox, %pasteVar%
+	;//msgBox, userinput== %UserInput%
+	if(UserInput = pasteVar)
+	{
+		;//msgbox, "paste dsfsdfsdfasdf"
+		
+		DELETE_WORD("paste",2)
+		
+		;//clipboard = %clipboard%
+		;//send %clipboard%
+		;//SendInput, {Raw}%clipboard%
+		
+		;// http://www.autohotkey.com/board/topic/85303-having-an-issue-replacing-crlf-with-regexreplace/
+		;//replace the newlines, with newlines.
+		;//I think the RegExReplace looks for CRLF or CR or LF
+		;//So if you replace with "" you get a single line.
+		;//The hack is to replace "\R" with "\R" which seems like it would do
+		;//Nothing, but it effectively prevents line-endings from becomming
+		;//compounded. Thus warding of the double-spacing that was happening
+		;//when we cut+pasted.
+		thisR = `r
+		fixboard := RegExReplace(Clipboard, "\R", thisR)
+	  SendInput, {Raw}%fixboard%
+		;//SendInput,%fixboard%   ;//<---makes one long string.
+		
+		
+		return
+	}
+
 	;//Declare the globals you are using:
 	;//http://www.autohotkey.com/board/topic/87597-help-me-use-global-variables/
 	global SNIPPET_SHORTCUT_ARRAY_MATCHLIST
@@ -552,7 +593,7 @@ BRACKET_SHORTCUT_TRY(UserInput)
 
 ~>::
 {
-	Input, UserInput, V T5 L10 C, {enter}.{esc}{tab}{space}, dev,java,hibernate,google,rapid,chrono,clarizen,asana,eclipse,notepad,joblog,gitbash,github,welcome,paint,hotkeys,wamp,word,money,ontop,nts
+	Input, UserInput, V T5 L10 C, {enter}.{esc}{tab}{space}, dev,java,hibernate,google,rapid,chrono,clarizen,asana,eclipse,notepad,joblog,gitbash,github,welcome,paint,hotkeys,wamp,word,money,ontop,nts,putty
 	if (ErrorLevel = "Max")
 	{
 	    ;;this will conflict with HTML coding, so comment out the msg box.
@@ -581,12 +622,17 @@ BRACKET_SHORTCUT_TRY(UserInput)
 			return
 	}
 	; Otherwise, a match was found.
-	if (UserInput = "dev")
+	if (UserInput = "putty")
+	{
+		DELETE_WORD("putty",1)
+		Run, "C:\DEV\PROG\SSH\Putty"
+	}
+	else if (UserInput = "dev")
 	{
 			Send, {backspace 5}
 			Run, "C:\DEV"
 	}
-	if (UserInput = "nts")
+	else if (UserInput = "nts")
 	{
 		DELETE_WORD("nts",1)
 		Run, "C:\DEV\REPO\GIT\Nexient-TestingService"
