@@ -21,9 +21,9 @@ TheList= fora,bena,iana
 				;//like SNIPPET_SHORTCUT_ARRAY, 
 				;//but has "]" symbols at the end of the words.
 				SNIPPET_SHORTCUT_ARRAY_MATCHLIST     = test],try]
-				ANG_SNIPPET_SHORTCUT_ARRAY_MATCHLIST = test2>,try2>
-				IMP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST = test2>,try2>
-				JSP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST = test4>,try4> ;//JSP & JSTL
+				ANG_SNIPPET_SHORTCUT_ARRAY_MATCHLIST = test2],try2]
+				IMP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST = test2],try2]
+				JSP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST = test4],try4] ;//JSP & JSTL
 				
 				;//Create associative array that will map shortcut names to functions.
 				SNIPPET_SHORTCUT_ASSOC_ARRAY     := {"testKey":"testValue"}
@@ -187,13 +187,55 @@ TheList= fora,bena,iana
 				
 					
 	;//MsgBox "Initialized:"%SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
-	MsgBox "Initialized:"%IMP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
+	;MsgBox "Initialized:"%IMP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
 	;//MsgBox %SNIPPET_SHORTCUT_ARRAY%
  
 return
 }
  
 SetDefaults(void)
+
+
+; /////////////Enter move mode script///////////////////////////////////////////
+!J::
+{
+enterMoveMode(void)
+return
+}
+
+!L::
+{
+enterMoveMode(void)
+return
+}
+
+!I::
+{
+enterMoveMode(void)
+return
+}
+
+!K::
+{
+enterMoveMode(void)
+return
+}
+; /////////////ONLY WHEN IN MOVE MODE///////////////////////////////////////////
+
+
+enterMoveMode(void)
+{
+Run, %A_ScriptDir%\SUB_MODULES\MoveMode.ahk
+exitApp
+}
+
+!M::
+{
+   ;//MsgBox, "ALT + M??"
+	 Run, %A_ScriptDir%\SUB_MODULES\HackingDrawScreen.ahk
+	 exitApp ;//exit this script so selector hotkeys can take over.
+   ;return
+}
 
 ;// http://www.autohotkey.com/board/topic/99092-remap-colon-key-help/
 ; `: will use for ":" key.
@@ -353,6 +395,9 @@ IMPORT_SHORTCUT_TRY(UserInput)
 	Input, UserInput, V T5 L20 C, {enter}{esc}{tab}{backspace}, %ANG_SNIPPET_SHORTCUT_ARRAY_MATCHLIST%
 	ANGULAR_SHORTCUT_TRY(UserInput)
 	;//MsgBox "userInput==" %UserInput%
+	
+	;return might be needed for angular hotkeys to not flow into other hotkeys.
+	return
 }
 
 JSP_JSTL_SHORTCUT_TRY(UserInput)
@@ -486,6 +531,27 @@ ANGULAR_SHORTCUT_TRY(UserInput)
  	BRACKET_SHORTCUT_TRY(UserInput)
 	return
  }
+ 
+ 
+PASTE_CLIPBOARD_USING_SIMULATED_TYPING()
+{
+	;//clipboard = %clipboard%
+	;//send %clipboard%
+	;//SendInput, {Raw}%clipboard%
+	
+	;// http://www.autohotkey.com/board/topic/85303-having-an-issue-replacing-crlf-with-regexreplace/
+	;//replace the newlines, with newlines.
+	;//I think the RegExReplace looks for CRLF or CR or LF
+	;//So if you replace with "" you get a single line.
+	;//The hack is to replace "\R" with "\R" which seems like it would do
+	;//Nothing, but it effectively prevents line-endings from becomming
+	;//compounded. Thus warding of the double-spacing that was happening
+	;//when we cut+pasted.
+	thisR = `r
+	fixboard := RegExReplace(Clipboard, "\R", thisR)
+	SendInput, {Raw}%fixboard%
+	;//SendInput,%fixboard%   ;//<---makes one long string.
+}
 
 ;used for inserting snippets. Example [for] writes a for-loop snippet.
 BRACKET_SHORTCUT_TRY(UserInput)
@@ -507,22 +573,7 @@ BRACKET_SHORTCUT_TRY(UserInput)
 		
 		DELETE_WORD("paste",2)
 		
-		;//clipboard = %clipboard%
-		;//send %clipboard%
-		;//SendInput, {Raw}%clipboard%
-		
-		;// http://www.autohotkey.com/board/topic/85303-having-an-issue-replacing-crlf-with-regexreplace/
-		;//replace the newlines, with newlines.
-		;//I think the RegExReplace looks for CRLF or CR or LF
-		;//So if you replace with "" you get a single line.
-		;//The hack is to replace "\R" with "\R" which seems like it would do
-		;//Nothing, but it effectively prevents line-endings from becomming
-		;//compounded. Thus warding of the double-spacing that was happening
-		;//when we cut+pasted.
-		thisR = `r
-		fixboard := RegExReplace(Clipboard, "\R", thisR)
-	  SendInput, {Raw}%fixboard%
-		;//SendInput,%fixboard%   ;//<---makes one long string.
+		PASTE_CLIPBOARD_USING_SIMULATED_TYPING()
 		
 		
 		return
@@ -593,7 +644,7 @@ BRACKET_SHORTCUT_TRY(UserInput)
 
 ~>::
 {
-	Input, UserInput, V T5 L10 C, {enter}.{esc}{tab}{space}, dev,java,hibernate,google,rapid,chrono,clarizen,asana,eclipse,notepad,joblog,gitbash,github,welcome,paint,hotkeys,wamp,word,money,ontop,nts,putty
+	Input, UserInput, V T5 L10 C, {enter}.{esc}{tab}{space}, dev,java,hibernate,google,rapid,chrono,clarizen,asana,eclipse,notepad,joblog,gitbash,github,welcome,paint,hotkeys,wamp,word,money,ontop,nts,putty,midori
 	if (ErrorLevel = "Max")
 	{
 	    ;;this will conflict with HTML coding, so comment out the msg box.
@@ -626,6 +677,11 @@ BRACKET_SHORTCUT_TRY(UserInput)
 	{
 		DELETE_WORD("putty",1)
 		Run, "C:\DEV\PROG\SSH\Putty"
+	}
+	else if (UserInput = "midori")
+	{
+		DELETE_WORD("midori",1)
+		Run, "C:\DEV\PROG\MidoriBrowser\bin\midori.exe"
 	}
 	else if (UserInput = "dev")
 	{

@@ -1,0 +1,11 @@
+		  <form name="myForm">
+				<p> riddleID? </p>
+				<input type="number" ng-model="riddleID">
+				<p> rhymeID? </p>
+				<input type="number" ng-model="rhymeID" >
+				<p> Ask if it is correct: </p>
+				<button data-ng-click="callAPI()">QUERY!</button>
+				<textarea readonly>
+				{{ theResponseJsonTextWeWant }} 
+				</textarea>
+			</form>

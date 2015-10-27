@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head><meta charset="utf-8"> 
+<!-- AUTHOR: JMadison. -->
+<!--   10|       20|       30|       40|       50|       60|       70|       -->
+<!--5678901234567890123456789012345678901234567890123456789012345678901234567-->
+	
+		<!--angular library -->
+		<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+		
+		<!-- Jquery needed to build query string. -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+		<!-- Async Spinners Service -->
+		<script src="https://raw.githubusercontent.com/JMadisonAtNexientDotCom/j/SPRING_REST_START_01/src/main/webapp/jsLib/node_modules/angular-spinners/src/spinner-service.js"></script>
+		<script src="https://raw.githubusercontent.com/JMadisonAtNexientDotCom/j/SPRING_REST_START_01/src/main/webapp/jsLib/node_modules/angular-spinners/src/spinner-directive.js"></script>
+		<script src="https://raw.githubusercontent.com/JMadisonAtNexientDotCom/j/SPRING_REST_START_01/src/main/webapp/jsLib/node_modules/angular-spinners/dist/angular-spinners.js"></script>
+
+		<!--
+		//If mimetype sent from server is text/plain, this type of link will fail.
+		<LINK REL=StyleSheet HREF="http://website.com/myStyle.css" TYPE="text/css">
+	  -->
+	
+    <title>SOME API TITLE</title>
+  
+  </head>
+  <body>
+		<div data-ng-app="myApp" ng-controller="myCtrl" data-ng-init="initVars();">
+		  <form name="myForm">
+			
+				<p> ENTER apiParam01: </p>
+				<input type="string" ng-model="apiParam01">
+				
+				<p> ENTER apiParam02: </p>
+				<input type="string" ng-model="apiParam01">
+				
+				<p> ENTER apiParam03: </p>
+				<input type="string" ng-model="apiParam01">
+				
+				<p> ENTER apiParam04: </p>
+				<input type="string" ng-model="apiParam01">
+				
+				<p> ENTER apiParam05: </p>
+				<input type="string" ng-model="apiParam01">
+				
+				<p> ENTER apiParam06: </p>
+				<input type="string" ng-model="apiParam01">
+				
+				<p> ENTER apiParam07: </p>
+				<input type="string" ng-model="apiParam01">
+				
+				<p> ENTER apiParam08: </p>
+				<input type="string" ng-model="apiParam01">
+				
+				<p> ENTER apiParam09: </p>
+				<input type="string" ng-model="apiParam01">
+				
+				<p> ENTER apiParam10: </p>
+				<input type="string" ng-model="apiParam01">
+				
+				<p> CALL API: </p> 
+				<button data-ng-click="callAPI();">QUERY!</button>
+				
+				<!-- spinner to let user know to wait for async call. -->
+				<spinner name="html5spinner">  
+						<div class="overlay"></div>
+						<div class="spinner">
+										<div class="double-bounce1"></div>
+										<div class="double-bounce2"></div>
+						</div>
+						<div class="please-wait">...WAIT!...</div>
+				</spinner>  
+				
+				<p> THE QUERY MADE: </p>
+				<textarea readonly>
+				{{ apiCallUsed }} 
+				</textarea>
+				
+				<p> THE RESULT OF QUERY: </p>
+				<textarea readonly>
+				{{ theResponseJsonTextWeWant }} 
+				</textarea>
+				
+			</form>
+		</div>
+		
+		<script>
+		//Circumvents mime type problem when hosting style sheet on github:
+		$( document ).ready(function() {
+			$("<link/>", {
+					 rel: "import", //<--key to circumventing mimetype.
+					 type: "text/css",
+					 href: "https://raw.githubusercontent.com/JMadisonAtNexientDotCom/j/SPRING_REST_START_01/src/main/webapp/jsLib/css/components/loading_spinner.css"
+			}).appendTo("head");
+		});//EXECUTE WHEN DOCUMENT READY:
+		</script>
+
+		
+		<script>
+		
+		//http://www.w3schools.com/angular/tryit.asp?filename=try_ng_intro_controller
+		var app = angular.module('myApp', ['angularSpinners'])
+		app.controller('myCtrl', function($scope, $http, spinnerService) {
+		
+		  //Initialize variables this way so we don't clutter the ng-init list:
+			//http://stackoverflow.com/questions/23919847/declare-multiple-values-in-ng-init
+		  $scope.initVars = function(){
+			  $scope.inDevMode = true; //are we in development mode?
+				$scope.theResponseJsonTextWeWant='hello';
+				$scope.apiCallUsed='ONE';
+				$scope.apiParam01 = "INITED_apiParam01";
+				$scope.apiParam02 = "INITED_apiParam02";
+				$scope.apiParam03 = "INITED_apiParam03";
+				$scope.apiParam04 = "INITED_apiParam04";
+				$scope.apiParam05 = "INITED_apiParam05";
+				$scope.apiParam06 = "INITED_apiParam06";
+				$scope.apiParam07 = "INITED_apiParam07";
+				$scope.apiParam08 = "INITED_apiParam08";
+				$scope.apiParam09 = "INITED_apiParam09";
+				$scope.apiParam10 = "INITED_apiParam10";
+			};//FUNC:initVars:END
+			
+			function makeQueryString(){
+				//Build query string using J-QUERY:
+				//SOURCE: http://stackoverflow.com/questions/316781/
+				qs = $.param({ apiParam01: $scope.apiParam01, 
+					             apiParam02: $scope.apiParam02,
+											 apiParam03: $scope.apiParam03,
+											 apiParam04: $scope.apiParam04,
+											 apiParam05: $scope.apiParam05,
+											 apiParam06: $scope.apiParam06,
+											 apiParam07: $scope.apiParam07,
+											 apiParam08: $scope.apiParam08,
+											 apiParam09: $scope.apiParam09,
+											 apiParam10: $scope.apiParam10 
+											 }); //END PARAMS
+				return qs;
+			}//FUNC::END
+			
+			function  makeServiceURL(){
+				//url of rest-api responsible for making new ninja records using arguments:
+				//Break it up so refactoring is easier in future:
+				appRoot="http://localhost:8080/Nexient-TestingService-0.0.1-SNAPSHOT";
+				apiBase="v1/test";
+				apiPath="confirm";
+				serviceURL = appRoot+"/"+apiBase+"/"+apiPath;
+				return serviceURL;
+			}//FUNC::END
+			
+			function makeFullyQualifiedAPICallURL(){
+				//Build query string using J-QUERY:
+				//SOURCE: http://stackoverflow.com/questions/316781/
+				qs         = makeQueryString();
+				serviceURL = makeServiceURL();
+				apiCallURL = serviceURL+"?"+qs;
+				return apiCallURL;
+			}//FUNC::END
+			
+			$scope.callAPI = function(){
+			
+				spinnerService.show('html5spinner');
+				apiCallURL = makeFullyQualifiedAPICallURL();
+				
+				//for debugging:
+				$scope.apiCallUsed = apiCallURL;
+
+				//Call the api, and once response is returned,
+				//call onResponded(response)
+				httpProxyGet(apiCallURL, onResponded);
+				
+			};//FUNC:callAPI:END
+			
+			//Cross site scripting http calls... Can't figure out how to
+			//circumvent it. So when in development, we will use fake data.
+			//TODO: figure out how to fake the async delay as well.
+			function httpProxyGet(apiURL, onSuccessFunction){
+				if(true===$scope.inDevMode){
+					mockData = getEmbeddedResponseTestData();
+					onSuccessFunction(mockData);
+				}else
+				if(false===$scope.inDevMode){
+					$http.get(apiURL).success(onSuccessFunction);
+				}else{
+					alert("strict equality failed for testing if inDevMode");
+				}
+			}//FUNC:httpProxyGet:END
+				 
+			function onResponded(response){
+				$scope.theResponseJsonTextWeWant = response;
+				spinnerService.hide('html5spinner');
+			}//FUNC:onResponded:END
+			
+			//Gets mock response data for testing:
+			function getEmbeddedResponseTestData(){
+				var obj = JSON.parse(document.getElementById('embeddedJSON_01').innerHTML);
+				return obj;
+			}//FUNC::END
+
+		});//APP.CONTROLLER:END
+		</script>
+		
+		<script type="application/json" id="embeddedJSON_01">
+				{
+						"unicorns": "awesome",
+						"abc": [1, 2, 3]
+				}
+		</script>
+  </body>
+</html>
+<!--   10|       20|       30|       40|       50|       60|       70|       -->
+<!--5678901234567890123456789012345678901234567890123456789012345678901234567-->
