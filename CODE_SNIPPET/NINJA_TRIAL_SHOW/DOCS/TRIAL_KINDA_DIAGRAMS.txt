@@ -1,0 +1,100 @@
+//---------------TRIAL_TABLE & KINDA_TABLE DIAGRAMS: START---------------------+
+//TRIAL TABLE:                                                                 |
+//kind:     A string that identifies what type of [trial/test] it is.          |
+//token_id: Who owns these [tests/trial]? If you own token, you own test.      |
+//status:   tells us if the test is: created,started,submitted etc.            |
+//began_on: universal time in milliseconds that [trial/test] was started.      |
+//ended_on: universal time in milliseconds that [trial/test] was submitted.    |
+//                                                                             |
+//KINDA_TABLE:                                                                 |
+//kind: Same as in trial_table.                                                |
+//token_id: Who owns this record? If you own the token, you own the record.    |
+//challenge_id:  Points to data representing the guts of the trial.            |
+//has_challenge: True if challenge_id is valid. False otherwise.               |
+//effort_id:  Represents the "effort" the ninja put forth in solving the       |
+//            specific challenge of the trial.                                 |
+//has_effort: True if effort_id is valid.                                      |
+//            Else we assume no effort has been made.                          |
+//                                                                             |
+//TRIAL TABLE:                                                                 |
+//+------+----------+--------+----------+----------+----------+                |
+//| kind | token_id | status | began_on | ended_on | allotted |                |
+//+------+-----x----+--------+----------+----------+----------+                |
+//             |                                                               |
+//KINDA_TABLE: |                                                               |
+//+------+-----x----+--------------+---------------+----------|                |
+//| kind | token_id | challenge_id | has_challenge | effort_id /..             |
+//+------+----------+--------------+---------------+----------|                |
+//                        |-----------+-----------+-----------+                |
+//                     ../ has_effort | is_graded | grade_10k |                |
+//                        |-----------+-----------+-----------+                |
+//                                                                             |
+////WHAT I DIDN'T DO, AND WHY:XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|
+//Thought I could have trial_table use "kind_id" rather than "kind"            |
+//So that it could identify the kinda_table record that way.                   |
+//And then token_id would only have to appear in trial_table, not in           |
+//kinda_table. And then, in the event of two candidates getting the            |
+//exact same test and answering the exact same way, they could reference       |
+//the EXACT SAME KIND_ID from the kinda_table.                                 |
+//                                                                             |
+//Problem with that:                                                           |
+//1. They have to start with separate kinda_table stubs.                       |
+//   So you would be doing a merge on the data.                                |
+//2. If we want to add a re-take test in the future, you would have to         |
+//   UN-MERGE those results. Seems like a pain to me.                          |
+////XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX|
+//                                                                             |
+////WHAT I DID DO, AND WHY: ===================================================|
+//                                                                             |
+//KIND: kind is present in BOTH trial_table and kinda_table:                   |
+//      It is used for redundancy. The kind value should match in both records.|
+//      Also, if we want to destroy kinda_table record and create a new test   |
+//      with same token, we could, since trial_table is also keeping track     |
+//      of the kind.                                                           |
+//                                                                             |
+//TOKEN_ID: One trial_table record per token_id, one kinda_table record per    |
+//          token_id. Thus, we can link/associate the information together     |
+//          using the token_id. This probably also means we could just make    |
+//          it one big HUGE table. But that would make the entities larger,    |
+//          the transaction utilities larger, the test servlets larger... etc. |
+//          This seems like a logical division the way I have partitioned the  |
+//          tables.                                                            |
+//                                                                             |
+//MORE INFO:                                                                   |
+//More on token_id:                                                            |
+//Question: Why not tie to ninja_id or admin_id?                               |
+//          Because Ninjas + Admins are two completely separate user types.    |
+//          They are not even derived from each other. Ninjas cannot own an    |
+//          account and login/password information. Ninjas can however,        |
+//          own tokens.                                                        |
+//                                                                             |
+//          Tokens are the common currency. Whenever we have the choice of     |
+//          using different foreign keys in our design, the arbitration        |
+//          should be solved by using token_id, if that is one of the          |
+//          choices.                                                           |
+//More on status:                                                              |
+//          There are other options between created and started.               |
+//          But I can't remember exactly what they were called. But basically, |
+//          there is another step where the user confirms the token, but has   |
+//          NOT started the test yet.                                          |
+//Defining "guts of challenge:                                                 |
+//          Guts == all the questions on test. No meta data. Just questions.   |    
+//More on effort_id:                                                           |
+//          Could also think of it as                                          |
+//          a "response". But response is too generic for me.                  |
+//          Because response could mean "response to a single question"        |
+//          or "response to a collection of questions. "effort" in this        |
+//          context explicitly means "a collection of responses."              |
+//More on has_challenge & has_effort:                                          |
+//          Used so we can safely have null references when foreign key        |
+//          does not exist. For example no challenge data or effort data will  |
+//          exist when stubs are first created. When trial-questions have been |
+//          generated, challenge_id will be a value >=1, and has_challenge will|
+//          == true. has_effort however will remain false until ninja has      |
+//          submitted all of their answers for grading. Then an effort object  |
+//          will be created to reflect the ninja's responses.                  |
+//==================TRIAL_TABLE & KINDA_TABLE DIAGRAMS: END====================+
+
+
+
+

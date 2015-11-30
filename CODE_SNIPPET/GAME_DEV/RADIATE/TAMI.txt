@@ -1,0 +1,87 @@
+//-----------------------------------------------------------------------------+
+//AHK: [tami]      AUTHOR: John Mark Isaac Madison: 2015.11.27 (YYYY.MM.DD)    |
+//-----------------------------------------------------------------------------+
+//A "TAMI" is a multi-layered tile map. The entire map is known as a "TAMI".   |
+//An individual "tile" is called a "CUBI", based on word "cubby hole".         |
+//A CUBI's contents consist of "STAK" of PLAT(S). "PLAT" based on word         |
+//"plates". Stacks of plates are stored inside "CRAT"                          |
+//CRAT meaning "milk crate"                             |TAMI: The entire map  |
+//  |<-------------- TAMI -------------->|              |CUBI: All tile data   |
+//  +----------+ +----------+ +----------+ <--\         |CRAT: Visible Tile    |
+//  | [ plat ] | | [ plat ] | | [ plat ] |     |        |STAK: Stack of plat.  |
+//  | [ plat ] | | [ plat ] | | [ plat ] |      >--CUBI |PLAT: Layer in tile.  |
+//  | [ plat ] | | [ plat ] | | [ plat ] |     |        |BAKA: Backer Cap.     |
+//  +----------+ +----------+ +----------+ <--/         |BORD: Collision Bord  |
+//  +----------+ +----------+ +----------+  Imagine that each PLAT is          |
+//  | [ plat ] | | [ plat ] | | [ plat ] |  transparent, like a lithograph     |
+//  | [ plat ] | | [ plat ] | | [ plat ] |  plate. They can be stacked on top  |
+//  | [ plat ] | | [ plat ] | | [ plat ] |  of each other in order to form a   |
+//  +----------+ +----------+ +----------+  composite image.                   |
+//  +----------+ +----------+ +----------+                                     |
+//  | [ plat ] | | [ plat ] | | [ plat ] |  One CUBI contains a STAK of plates.|
+//  | [ plat ] | | [ plat ] | | [ plat ] |  Conceptually different, but        |
+//  | [ plat ] | | [ plat ] | | [ plat ] |  internally a CUBI === STAK.        |
+//  +----------+ +----------+ +----------+                                     |
+//                                                                             |
+//  More on BAKA + ICOP:                                                       |
+//  The last 8 bits are used for invisible collision detection in this game.   |
+//  We do this so we can set stationary prop sprites onto the map and have them|
+//  appear to have collision data. But they actually are just using the tilemap|
+//  collision methods. This worked well with Atomic Alice. So standardizing it.|
+//                                                                             |
+//  BAKA: Is the "backer cap" of our cubby hole.                               |
+//                                                                             |
+//        In real world: It is the thing that prevents you from shoving stuff  |
+//        into a cubby hole and then letting it fall out the other side.       |
+//                                                                             |
+//        In programming world: Only mean to communicate the collision aspect  |
+//        of it. And that it is in the "back" layers.                          |
+//                                                                             |
+//  BORD: Is a single "plate" within the BAKA. These plates represent layers   |
+//        for invisible collision detection.                                   |
+//        Maybe: ICOP#0 == Block collision.                                    |
+//               ICOP#1 == Angled tile collision.                              |
+//               ICOP#2 == Water collision.                                    |
+//               ETC.                                                          |
+//                                                                             |
+//  DIAGRAM: Anatomy of a CUBI: SIDE VIEW                                      |
+//||=======================================================================||  |
+//||                                                                       ||  |
+//||               +------------------+ <----------\                       ||  |
+//||               |                  |             \                      ||  |
+//||               +------------------+              \                     ||  |
+//||                            +-+-+-+ <--\          \                    ||  |
+//||        /--->  +-+-+-+-+-+  | | | |    |           \                   ||  |
+//||        |      |p|p|p|p|p|  |b|b|b|    |            \                  ||  |
+//CRAT full -      |l|l|l|l|l|  |o|o|o|    \-BAKA full   \ Entire assembly ||  |
+//of PLAT(S)-      |a|a|a|a|a|  |r|r|r|    /-of BORD(S)  / known as CUBI   ||  |
+//||        |      |t|t|t|t|t|  |d|d|d|		|					    /                  ||  |
+//||        \--->  +-+-+-+-+-+  | | | |    |           /                   ||  |
+//||                            +-+-+-+ <--/          /                    ||  |
+//||               +------------------+              /                     ||  |
+//||               |                  |             /                      ||  |
+//||               +------------------+ <----------/                       ||  |
+//||                                                                       ||  |
+//||=======================================================================||  |
+//                                                                             |
+//-----------------------------------------------------------------------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -644,7 +644,7 @@ BRACKET_SHORTCUT_TRY(UserInput)
 
 ~>::
 {
-	Input, UserInput, V T5 L10 C, {enter}.{esc}{tab}{space}, dev,java,hibernate,google,rapid,chrono,clarizen,asana,eclipse,notepad,joblog,gitbash,github,welcome,paint,hotkeys,wamp,word,money,ontop,nts,putty,midori
+	Input, UserInput, V T5 L10 C, {enter}.{esc}{tab}{space},gui1,gui2,testbat,cmake,dev,java,hibernate,google,rapid,chrono,clarizen,asana,eclipse,notepad,joblog,gitbash,github,welcome,paint,hotkeys,wamp,word,money,ontop,nts,putty,midori
 	if (ErrorLevel = "Max")
 	{
 	    ;;this will conflict with HTML coding, so comment out the msg box.
@@ -678,10 +678,27 @@ BRACKET_SHORTCUT_TRY(UserInput)
 		DELETE_WORD("putty",1)
 		Run, "C:\DEV\PROG\SSH\Putty"
 	}
+	else if (UserInput = "gui1"){
+		DELETE_WORD("gui1",1)
+		Run, "C:\DEV\AHK\CODE_SNIPPET\NEXIENT_PROJECTS\GAUNTLET_UI\BAT\BootUp_01.bat"
+	}
+	else if (UserInput = "gui2"){
+		DELETE_WORD("gui2",1)
+		Run, "C:\DEV\AHK\CODE_SNIPPET\NEXIENT_PROJECTS\GAUNTLET_UI\BAT\BootUp_02.bat"
+    }
+    else if (UserInput = "testbat"){
+		DELETE_WORD("testbat",1)
+		Run, "C:\DEV\AHK\CODE_SNIPPET\NEXIENT_PROJECTS\GAUNTLET_UI\BAT\TestBat.bat"
+    }
 	else if (UserInput = "midori")
 	{
 		DELETE_WORD("midori",1)
 		Run, "C:\DEV\PROG\MidoriBrowser\bin\midori.exe"
+	}
+	else if (UserInput = "cmake")
+	{
+		DELETE_WORD("cmake",1)
+		Run, "C:\DEV\SDK\GAME_DEV\CMAKE\cmake-3.3.2-win32-x86\bin\cmake-gui.exe"
 	}
 	else if (UserInput = "dev")
 	{

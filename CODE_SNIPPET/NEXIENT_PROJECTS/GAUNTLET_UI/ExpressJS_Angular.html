@@ -1,0 +1,32 @@
+<div class="container login-wrapper">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+					
+            <h3 class="panel-title">
+						{{ctrl.metadata.first_name + " " + 
+						  ctrl.metadata.last_name + ": " + 
+						  ctrl.metadata.skill}}
+						</h3>
+						
+        </div>
+        <div class="panel-body">
+              <p>Hi!</p>
+
+          		<p>HAY:{{ctrl.metadata.skill}}</p>
+
+          		<p>HAY: {{ctrl.metadata.skill}}</p>
+
+              <div class="text-center">
+                <button ng-click="ctrl.beginClick()" 
+								type="button" class="btn btn-primary">
+								Begin Test
+								</button>
+              </div>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

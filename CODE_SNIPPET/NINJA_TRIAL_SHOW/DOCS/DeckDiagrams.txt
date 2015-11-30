@@ -1,0 +1,56 @@
+////////////////////////////////////////////////////////////////////////////////
+//TABLE: Each entry is a meaningful datapoint.                                //
+//PURSE: A table where entries are only meaningful as a cluster               //
+//       of records with same group id. Thinking of it as a jumbled           //
+//       mess inside a purse, where you have to manually sort though it       //
+//       and collect what you want.                                           //
+////////////////////////////////////////////////////////////////////////////////
+// DECK_TABLE:                          +----------+                          //
+// Wraps the CONTENTS of the deck into  |id|deck_gi|                          //
+// one id reference.                    +--------V-+                          //
+//                                               |                            //
+// DECK_PURSE:                          +-------/|\------------------+        //
+// The jumbled contents of a deck.      |id|group_id|locus|cuecard_id|        //
+// One unique deck within table is      +-----------------------V----+        //
+// identified by the group_id.                                  |             //
+//                                       + - - - - - - - - - - -+             //
+//                                       |                                    //
+// CUECARD_TABLE:                       +V------------------+                 //
+// Represents a single interview        |id|riddle_id|ink_id|                 //
+// question asked by the joker to       +----------------V--+                 //
+// the ninja.                                            |                    //
+//                                       + - - - - - - - +                    //
+//                                       |                                    //
+// INK_TABLE:                           +V--------+                           //
+// Represents [QUIPS/RHYMES/ANSWERS]    |id|ink_gi|                           //
+// Ninja can select.                    +-----V---+                           //
+//                                            |                               //
+// INK_PURSE:                           +----/|\-------------------+          //
+// Each cue card may have n# lines of   |id|group_id|locus|rhyme_id|          //
+// "ink" on it.                         +--------------------------+          //
+////////////////////////////////////////////////////////////////////////////////
+//QUAR_TABLE:                                    +----------+                 //       
+//Packages the contents of a single quar into    |id|quar_gi|                 //       
+//one reference. For ease of use.                +------V---+                 //               
+//                                                      |                     //       
+//QUAR_PURSE:                                    +-----/|\------------+       //       
+//The contents of the quars. A quar is a         |id|group_id|slate_id|       //       
+//gigantic black monolith of slates.             +----------------V---+       //       
+//It represents all of the answer slates the                      |           //       
+//Ninja filled out to complete the riddle-trial.  +---------------+           //       
+//                                                |                           //       
+// CUECARD_TABLE:                                +V----------------------------+       
+// An individual slate within the quar.          |id|status|cuecard_id|chalk_id|       
+//                                               +------------------------V----+       
+//                                                                        |   //       
+//                                                +-----------------------+   //       
+//                                                |                           //       
+// CHALK_TABLE:                                  +V----------+                //       
+// Chalk being what is written on the slate.     |id|chalk_gi|                //          
+//                                               +------V----+                //       
+//                                                      |                     //       
+// CHALK_PURSE:                                  +-----/|\------------+       //       
+// A slate can have multiple answers written on  |id|group_id|rhyme_id|       //             
+// it. This table groups those answers together. +--------------------+       //       
+////////////////////////////////////////////////////////////////////////////////           
+                                                                                                                                          
