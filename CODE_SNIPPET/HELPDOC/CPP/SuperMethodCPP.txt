@@ -1,0 +1,24 @@
+AHK: [supercpp]
+//YO! How do I do Java's .super() equivalent in C++???
+
+//Editor .cpp implementation file:
+////////////////////////////////////////////////////////////////////////////////
+//Editor constructor:
+Editor::Editor(){
+
+    //I think this equivalent of .super method in java.
+    //However, I think the... inherited RenderWindow component is being
+    //Destroyed after exiting this scope because this does not use
+    //The new() keyword.
+    sf::RenderWindow(sf::VideoMode(800,600), "My Super Window"); //.super call.
+    
+ }
+////////////////////////////////////////////////////////////////////////////////
+
+//Editor .hpp file declaring that Editor extends sf::RenderWindow
+////////////////////////////////////////////////////////////////////////////////
+    class Editor : sf::RenderWindow {
+    public:
+        Editor(); //Constructor.
+    };//CLASS
+////////////////////////////////////////////////////////////////////////////////

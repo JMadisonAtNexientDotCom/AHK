@@ -1,0 +1,38 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html ng-app="Angello">
+<head lang="en">
+	<meta charset="utf-,8">
+	<title>Angello App: Page 11 Angular In Action</title>
+</head>
+<body>
+
+<div ng-controller="MainCtrl as main">
+	<div class="col-md-4">
+		<h2>Stories</h2>
+		<story class="callout"
+			ng-repeat="story in main.stories"
+			ng-click ="main.setCurrentStory(story)">
+			<h4>{{story.title}}</h4>
+			<p>{{story.description}}</p>
+		</story>
+		<br/>
+		<a class="btn btn-primary" ng-click="main.createStory()">
+			<span class="glyphicon glyphicon-plus"></span>
+		</a>
+	</div>
+</div>
+
+
+
+<!-- BEFORE BOOTSTRAP INCLUDE: Bootstrap requiers JQuery Library.        -->
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<!-- Bootstrap: .js and .css respectively.                               -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" ></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+
+<script src="app.js"></script>
+</body>
+</html>

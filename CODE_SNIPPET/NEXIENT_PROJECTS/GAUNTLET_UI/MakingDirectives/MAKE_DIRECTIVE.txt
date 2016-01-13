@@ -1,0 +1,7 @@
+
+//in app.module.js:
+Place: 'gauntletApp.adminTable', inside array:
+angular.module('gauntletApp', [....]);
+
+//in index.html:
+<script src="common/directive/adminTable.js"></script>

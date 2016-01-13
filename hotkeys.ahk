@@ -17,6 +17,7 @@ TheList= fora,bena,iana
 				ANG_SNIPPET_SHORTCUT_ARRAY := Object()
 				IMP_SNIPPET_SHORTCUT_ARRAY := Object()
 				JSP_JSTL_CS_SHORTCUT_ARRAY := Object() ;//CS == Code Snippet.
+				;//FUNC_MAPPER_SHORTCUT_ARRAY := Object() ;//function mapping.
 				
 				;//like SNIPPET_SHORTCUT_ARRAY, 
 				;//but has "]" symbols at the end of the words.
@@ -24,12 +25,14 @@ TheList= fora,bena,iana
 				ANG_SNIPPET_SHORTCUT_ARRAY_MATCHLIST = test2],try2]
 				IMP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST = test2],try2]
 				JSP_SNIPPET_SHORTCUT_ARRAY_MATCHLIST = test4],try4] ;//JSP & JSTL
+				;//FUNC_MAPPER_SHORTCUT_ARRAY_MATCHLIST = test8],try8] ;//FUNCTIONS.
 				
 				;//Create associative array that will map shortcut names to functions.
 				SNIPPET_SHORTCUT_ASSOC_ARRAY     := {"testKey":"testValue"}
 				ANG_SNIPPET_SHORTCUT_ASSOC_ARRAY := {"testKey":"testValue"}
 				IMP_SNIPPET_SHORTCUT_ASSOC_ARRAY := {"testKey":"testValue"}
 				JSP_SNIPPET_SHORTCUT_ASSOC_ARRAY := {"testKey":"testValue"}
+				;//FUNC_MAPPER_SHORTCUT_ASSOC_ARRAY := {"testKey":"testValue"}
 				
 				;//ARR_TEST = for],while],main],ps],pv],cs],cdplayerconfig],compactdisc],sgtpeppers],sia_listing],cdplayertest]
  
@@ -349,6 +352,8 @@ IMPORT_SHORTCUT_TRY(UserInput)
 			{
 			return
 			}
+			
+		return ;always return if error to fix typing to fast error?
 	}
 	; Otherwise, a match was found.
 	
@@ -532,6 +537,30 @@ ANGULAR_SHORTCUT_TRY(UserInput)
 	return
  }
  
+ ;; possible that short var names make script less glitchy?
+PONE_SIM_PASTE(){
+
+	empty_string := ""  ;//set to empty string.
+	fixboard   := RegExReplace(Clipboard, "\R", empty_string) ;//remove newlines
+
+	;//Get rid of extra spaces. Up to 40 in a row:
+	;//https://autohotkey.com/board/topic/8690-little-math-replacing-multiple-spaces-with-one/
+	StringReplace fixboard, fixboard, %A_Space%    %A_Space%, %A_Space%, All 
+	StringReplace fixboard, fixboard, %A_Space% %A_Space%, %A_Space%, All 
+	StringReplace fixboard, fixboard, %A_Space%%A_Space%, %A_Space%, All 
+	StringReplace fixboard, fixboard, %A_Space%%A_Space%, %A_Space%, All
+	
+	;My edit. NOTE: spacing of lines is intentional I believe.
+	StringReplace fixboard, fixboard, %A_Tab%    %A_Tab%, %A_Tab%, All 
+	StringReplace fixboard, fixboard, %A_Tab% %A_Tab%, %A_Tab%, All 
+	StringReplace fixboard, fixboard, %A_Tab%%A_Tab%, %A_Tab%, All 
+	StringReplace fixboard, fixboard, %A_Tab%%A_Tab%, %A_Tab%, All
+	
+	
+	SendInput, {Raw}%fixboard%
+	return
+
+}
  
 PASTE_CLIPBOARD_USING_SIMULATED_TYPING()
 {
@@ -551,12 +580,37 @@ PASTE_CLIPBOARD_USING_SIMULATED_TYPING()
 	fixboard := RegExReplace(Clipboard, "\R", thisR)
 	SendInput, {Raw}%fixboard%
 	;//SendInput,%fixboard%   ;//<---makes one long string.
+	return
 }
 
 ;used for inserting snippets. Example [for] writes a for-loop snippet.
 BRACKET_SHORTCUT_TRY(UserInput)
 ;~[::
 {
+
+	poneVar = pone`]
+  pasteUpperVar = pu`]
+  pasteLowerVar = pl`]
+	
+	if(UserInput = poneVar)
+	{
+		DELETE_WORD("pone",2)
+		PONE_SIM_PASTE()
+		;PASTE_CLIPBOARD_USING_SIMULATED_TYPING()
+		return
+	}
+  
+  if(UserInput = pasteUpperVar){
+    DELETE_WORD("pu",2)
+    PASTE_CLIPBOARD_AS_UPPERCASE()
+    return
+  }
+  
+  if(UserInput = pasteLowerVar){
+    DELETE_WORD("pl",2)
+    PASTE_CLIPBOARD_AS_LOWERCASE()
+    return
+  }
 
   ;//I HAVE NO CLUE WHY THIS NEEDS AN ENTER KEY TO BE INVOKED?? AH...
 	;//It still needs to be in the match list. Even though we are overriding it.
@@ -578,6 +632,9 @@ BRACKET_SHORTCUT_TRY(UserInput)
 		
 		return
 	}
+	
+	
+	
 
 	;//Declare the globals you are using:
 	;//http://www.autohotkey.com/board/topic/87597-help-me-use-global-variables/
@@ -822,7 +879,7 @@ Suspend, Toggle
 Return
 
 ;A alternate way to enter shortcut using a dialog box:
-^#r::
+^#r::  ; (^#r) === (CTRL + WINDOWS + R) key::
 {
 	;MsgBox "Test"
   ;//http://ahkscript.org/docs/commands/InputBox.htm
@@ -847,7 +904,7 @@ PASTE_TEXT_FRIENDLY_FILES_OR_OPEN_OTHERWISE(filePath){
 	;//SplitPath, InputVar [, OutFileName, OutDir, OutExtension, OutNameNoExt, OutDrive]
 	SplitPath, filePath, dontCare01,  dontCare02, ext,  dontCare03,  dontCare04
 
-	if(  (ext="docx") || (ext="pdf") )
+	if(  (ext="docx") || (ext="pdf") || (ext="png") || (ext="exe") || (ext="bat"))
 	{
 		Run, %A_ScriptDir%\%filePath%
 	}
@@ -855,18 +912,59 @@ PASTE_TEXT_FRIENDLY_FILES_OR_OPEN_OTHERWISE(filePath){
 	{
 		PASTE_FILE(filePath)
 	}
+	
+	return
+}
+
+PASTE_CLIPBOARD_AS_UPPERCASE(){
+  ;Store old contents of clipboard:
+	clip_board_contents = %Clipboard%
+  StringUpper Clipboard, clip_board_contents
+  
+  Send, ^v
+  
+  
+  ;Restore Clipboard:
+	sleep, 100 ;HACK: sleep so ^v call goes through. APPROX: 0.1 seconds.
+	Clipboard = %clip_board_contents% 
+}
+
+PASTE_CLIPBOARD_AS_LOWERCASE(){
+  ;Store old contents of clipboard:
+	clip_board_contents = %Clipboard%
+  StringLower Clipboard, clip_board_contents
+  
+  Send, ^v
+  
+  
+  ;Restore Clipboard:
+	sleep, 100 ;HACK: sleep so ^v call goes through. APPROX: 0.1 seconds.
+	Clipboard = %clip_board_contents% 
 }
 
 ;Dont know how to do with function
 PASTE_FILE(filePathToRead){
+
+  ;Store old contents of clipboard:
+	clip_board_contents = %Clipboard%
+	
+  ;Read data into clipboard, and paste it:
 	FileRead, Clipboard, %filePathToRead%
 	Send, ^v
+	
+	;Restore Clipboard:
+	sleep, 100 ;HACK: sleep for 999 milliseconds so ^v call goes through. APPROX: 0.1 seconds.
+	Clipboard = %clip_board_contents% 
+	
+	return
 }
 
 PRINT_TEMPLATE_CONFIG_FILE_CONTENTS()
 {
 	theFilePath:="CODE_SNIPPET\FILE_TO_KEY_MAPPING.txt"
 	PASTE_FILE(theFilePath) ;//RAWER.
+	
+	return
 }
 
 ;;backspaces number of characters in inWord

@@ -1,0 +1,1 @@
+http://localhost:8888/v1/admin/login?user_name=ryan&pass_word=password

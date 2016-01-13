@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>DROP DOWN SELECT EXAMPLE</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+</head>
+<!-- AUTHOR: JMadison.  ON:20##.##.##_####AMPM                               -->
+<!-- TABSIZE: 2 Spaces.                                                      -->
+<!-- This header belongs BELOW the <head></head> declaration.                -->
+<!--   10|       20|       30|       40|       50|       60|       70|       -->
+<!--5678901234567890123456789012345678901234567890123456789012345678901234567-->
+<body>
+  
+<div id="angular_div"
+data-ng-app="myApp" data-ng-controller="myCtrl" data-ng-init="VI();" >
+	<select name="XXXXXXXXX" id="drop_down_select" data-ng-model="data.selectedOption">
+	<option data-ng-repeat="option in data.option_array" value="{{option.id}}">
+		{{option.name}}
+	</option>
+</select>
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http) {
+
+  //variable initialization:
+	$scope.VI = function(){
+		//Drop Down Select Options:
+		$scope.data = {
+		  selectedOption : null,
+			option_array: [
+			  {id: '0', name: 'DEFAULT' },
+				{id: '1', name: 'Option A'},
+				{id: '2', name: 'Option B'},
+				{id: '3', name: 'Option C'}
+			]
+		};//select drop down options::END
+		
+		var opt = $scope.data.option_array[0];
+		console.log(opt);
+		$scope.data.selectedOption = opt;
+		
+		//select_opt = option_array[0];
+		//select_opt: {id: '3', name: 'Option C'} //This sets 
+		
+		
+	};
+
+});//CONTROLLER::END
+</script>
+
+</body>
+</html>
+<!--   10|       20|       30|       40|       50|       60|       70|       -->
+<!--5678901234567890123456789012345678901234567890123456789012345678901234567-->

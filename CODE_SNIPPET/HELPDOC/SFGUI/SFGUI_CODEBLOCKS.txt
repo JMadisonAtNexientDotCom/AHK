@@ -1,0 +1,52 @@
+AHK SHORTCUT: [sfgui]
+//SFGUI SETTINGS in CODE::BLOCKS:
+//-----------------------------------------------------------------------------+
+//  /Compiler settings\_______________                                         |
+//  /#defines\________________________                                         |
+//  SFGUI_STATIC                                                               |
+//                                                                             |
+//  /Linker settings\_________________                                         |
+//  /Link libraries\__________________                                         |
+//  libsfgui-s.a                                                               |
+//                                                                             -
+//  /Search directories\______________
+//  /Compiler\________________________
+//  C:\DEV\SDK\GAME_DEV\SFGUI\OFFICIAL_COMPILATIONS\TDM\SFGUI-TDM481x32\include
+//                                                                             -
+//  /Search directories\______________                                         |
+//  /Linker\__________________________                                         |
+//  C:\DEV\SDK\GAME_DEV\SFGUI\OFFICIAL_COMPILATIONS\TDM\SFGUI-TDM481x32\lib    |
+//-----------------------------------------------------------------------------+
+
+//SFML SETTTINGS in CODE::BLOCKS: (Version 2.3 of SFML)
+//You must also specify these settings since SFGUI is built on top of SFML:
+//THE SETTINGS ARE VERY DIFFERENT DEPENDING ON WHAT VERSION OF SFML YOU USE!!!
+//CONSULT THE CORRECT TUTORIAL FOR SETUP ON SFML'S SITE IF NOT USING 2.3
+//-----------------------------------------------------------------------------+
+//  /Compiler settings\_______________                                         |
+//  /#defines\________________________                                         |
+//  GLEW_STATIC                                                                |
+//  SFML_STATIC                                                                |
+//  UNICODE                                                                    |
+//                                                                             |
+//  /Linker settings\_________________                                         |
+//  /Link libraries\__________________                                         |
+//  sfml-graphics-s                                                            |
+//  sfml-window-s                                                              |
+//  sfml-network-s                                                             |
+//  sfml-system-s                                                              |
+//  winmm                                                                      |
+//  freetype                                                                   |
+//  ws2_32                                                                     |
+//  gdi32                                                                      |
+//  opengl32                                                                   |
+//  jpeg                                                                       |
+//                                                                             |
+//  /Search directories\______________                                         |
+//  /Compiler\________________________                                         |
+//  SFML-2.3.2\GCC_TDM_SJLJ_32BIT\include                                      |
+//                                                                             |
+//  /Search directories\______________                                         |
+//  /Linker\__________________________                                         |
+//  SFML-2.3.2\GCC_TDM_SJLJ_32BIT\lib                                          |
+//-----------------------------------------------------------------------------+

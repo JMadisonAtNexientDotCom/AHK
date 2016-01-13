@@ -1,0 +1,29 @@
+<div id="AUTO_TABLE" class="panel panel-default">
+	<h2> XXXXXXXX_TABLE_NAME_XXXXXXXXXXX </h2>
+	<table class="table table-striped table-hover">
+		<thead>
+			<tr><!-- COLUMN HEADER + SORT CONTROL -->
+				<th>XXXXXXXXX____COLUMN_NAME____XXXXXXXXX
+					<span class="glyphicon sort-icon" 
+					ng-show="SORT_KEY===SORT_KEY"
+					ng-class="{'glyphicon-chevron-up'  : IS_TABLE_FLIPPED,
+					           'glyphicon-chevron-down':!IS_TABLE_FLIPPED}"
+					ng-click="FLIP_THE_TABLE();">
+					</span>
+				  <!-- SEARCH BOX -->
+					<input type="text" class="form-control" placeholder="Search" 
+					data-ng-model="SEARCH_OBJ_xxx_SEARCH_STRING" 
+					ng-change="console.log('onChange!');" 
+					ng-click ="console.log('onClick!!');">
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat= "III_ITEM_III in instancedJSON_RESPONSE.XXX_COLLECTION_XXX | 
+			 filter :SEARCH_OBJ_xxx_SEARCH_STRING:strict | 
+			 orderBy:SORT_KEY:IS_TABLE_FLIPPED">
+				<td>{{III_ITEM_III.XXX_PROP_TO_DISPLAY_XXX}}</td>
+			</tr>
+		</tbody>
+	</table>
+<div> <!-- id:AUTO_TABLE -->

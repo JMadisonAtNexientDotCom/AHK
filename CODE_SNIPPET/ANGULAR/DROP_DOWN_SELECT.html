@@ -1,0 +1,19 @@
+
+
+<select name="XXXXXXXXX" id="drop_down_select" data-ng-model="data.select_opt">
+	<option data-ng-repeat="option in data.option_array" value="{{option.id}}">
+		{{option.name}}
+	</option>
+</select>
+
+<script>
+//Drop Down Select Options:
+$scope.data = {
+	select_opt: null, //selected option.
+	option_array: [
+		{id: '1', name: 'Option A'},
+		{id: '2', name: 'Option B'},
+		{id: '3', name: 'Option C'}
+	],
+};//select drop down options::END
+</script>
