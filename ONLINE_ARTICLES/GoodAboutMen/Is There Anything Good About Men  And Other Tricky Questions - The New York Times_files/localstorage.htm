@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"></head><body>
+<script>
+(function(){
+
+    function handleRequest(e){
+        var storageData, data;
+
+        //only allow nytimes.com domains
+        if (/\.nytimes\.com$/.test(e.origin)) {
+            data = JSON.parse(e.data);
+
+            if (data.value) {
+                localStorage.setItem(data.key, data.value);
+            } else {
+                storageData = window.localStorage.getItem(data.key) || '{}';
+                e.source.postMessage('localstorage:' + storageData, e.origin);
+            }
+        }
+    }
+
+    if (window.addEventListener) {
+        window.addEventListener("message", handleRequest, false);
+    } else if (window.attachEvent) {
+        window.attachEvent("onmessage", handleRequest);
+    }
+})();
+</script>
+
+</body></html>

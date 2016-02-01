@@ -588,9 +588,80 @@ BRACKET_SHORTCUT_TRY(UserInput)
 ;~[::
 {
 
+  cppIncludeGuardVar = ig`] ;include guard maker script.
 	poneVar = pone`]
   pasteUpperVar = pu`]
   pasteLowerVar = pl`]
+	
+	if(UserInput = cppIncludeGuardVar)
+	{
+		DELETE_WORD("ig",2) ;delete shortcut for include guard.
+		
+		tm = %A_HOUR%
+		tm_12 = 0;
+		time_string = 0
+		if(tm > 12){
+			tm_12:= tm - 12
+			time_string = %tm_12%%A_MM%PM
+		}else{
+			tm_12 := tm
+			time_string = %tm_12%%A_MM%AM
+		}
+		
+		;leading zero:
+		if(tm_12 < 10){
+			time_string = 0%time_string%
+		}
+		
+		;add seconds to end, because now that you are doing this with a script,
+		;you are going pretty fast and can do 3 include gaurds in under a minute:
+		time_string = %time_string%%A_SEC%SEC
+		
+		ds = %A_YYYY%_%A_MM%_%A_DD%_%time_string%
+		
+		;now add whatever is on clipboard to create our include guard line:
+		ig_base = %clipboard%_DATE_%ds%
+		
+		;Send {#}
+		;send ifndef %ig_base%
+		;send {enter}
+		
+		;Send {#}
+		;send define %ig_base%
+		;send {enter}
+		;send {enter}
+		
+		;Send {#}
+		;send endif //GUARD END
+		;send {enter}
+		
+		nl = `n ;newline char.
+		
+		code_block = `#
+		code_block = %code_block%ifndef %ig_base%
+		code_block = %code_block%%nl%
+		
+		code_block = %code_block%`#
+		code_block = %code_block%define %ig_base%
+		code_block = %code_block%%nl%
+		code_block = %code_block%%nl%
+		
+		code_block = %code_block%`#
+		code_block = %code_block%endif //GUARD END
+		code_block = %code_block%%nl%
+		
+		;hack so IDE (editors) don't fuck with your pasting:
+		clip_copy = %clipboard%
+		clipboard = %code_block%
+		send ^v
+		sleep, 100 ;HACK: sleep so ^v call goes through. APPROX: 0.1 seconds.
+		clipboard = %clip_copy%
+		
+		;sendraw, %code_block%
+		
+	
+		return
+	}
 	
 	if(UserInput = poneVar)
 	{
@@ -843,7 +914,7 @@ BRACKET_SHORTCUT_TRY(UserInput)
 	else if (UserInput = "welcome")
 	{
 		DELETE_WORD("welcome",1)
-		Run "C:\Users\jmadison\Desktop\NotOrganized\welcome.txt"
+		Run "C:\Users\jmadison\Desktop\SecretDesk\NotOrganized\welcome.txt"
 	}
 	else if (UserInput = "paint")
 	{

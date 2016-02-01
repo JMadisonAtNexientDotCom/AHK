@@ -1,0 +1,29 @@
+AHK: [bonesandsteak]
+Thoughts on: (Making *****'s from sacred ***'s)
+https://vimeo.com/105758303
+
+Individual classes should have a waterfall approach.
+The bigger picture of how the entire project fits together
+should be more of an agile/scrum approach.
+
+HARD-classes:  WATERFALL APPROACH
+SOFT-assembly: SCRUM APPROACH
+
+1. Do ONE thing.
+2. Do it WELL.
+3. Avoid refactoring.
+
+Q: Why are you refactoring?
+1: Adding functionality.
+   DONT REFACTOR. Violating linux "do one thing, and do it well".
+2: Changing functionality.
+   DONT REFACTOR. It already does one thing. And does it well.
+   If you want something that does something else, write another class.
+3: FIXING BUG:
+   OK. REFACTOR. It doesn't do one thing well. It need's editing.
+   
+  
+  
+Avoid noise words in tests.
+Like "should" and "must"
+https://vimeo.com/105758303

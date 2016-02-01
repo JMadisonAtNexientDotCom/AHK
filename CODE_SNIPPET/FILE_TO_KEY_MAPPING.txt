@@ -4,11 +4,26 @@ paste
 THIS PATH MEANS NOTHING TO ME. One-line paste command.
 pone
 
+THIS PATH MEANS NOTHING TO ME. Used to create C++ include gaurds.
+ig
+
 THIS PATH MEANS NOTHING TO ME. Paste As UPPER-CASE command.
 pu
 
 THIS PATH MEANS NOTHING TO ME. Paste As lower-CASE command.
 pl
+
+CODE_SNIPPET\HELPDOC\CPP\Circular_Deps.docx
+?circularc
+
+CODE_SNIPPET\NEXIENT_PROJECTS\GAUNTLET_UI\DOC\DEV_JS.docx
+?dev.js
+
+CODE_SNIPPET\NEXIENT_PROJECTS\GAUNTLET_UI\MakingDirectives/NewMod.docx
+?newmod
+
+CODE_SNIPPET\MYTHOUGHTS\CODESTANDARDS\BonesAndSteakCoding.txt
+bonesandsteak
 
 CODE_SNIPPET\SOCIAL\RULES.docx
 ?goodside
