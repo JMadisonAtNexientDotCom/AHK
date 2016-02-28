@@ -8,6 +8,8 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 SetDefaults(void)
 {
 global
+CTRL_COPY_LIST := ""
+CTRL_COPY_LIST_MAKER_IS_ON = false
 TheList= fora,bena,iana
 
  
@@ -583,15 +585,108 @@ PASTE_CLIPBOARD_USING_SIMULATED_TYPING()
 	return
 }
 
+;turn clipboard list making on:
+DO_CLIP_LIST_MAKER_INIT(){
+	global CTRL_COPY_LIST_MAKER_IS_ON
+	global CTRL_COPY_LIST
+	
+	;msgBox list_maker_init
+	
+	CTRL_COPY_LIST_MAKER_IS_ON = true
+	CTRL_COPY_LIST := ""
+	return
+}
+
+~^c::
+{
+    ;tilde (~) used to that ^c event is not eaten.
+	ON_CONTROL_C_OR_X()
+	return
+}
+
+~^x::
+{
+	 ;tilde (~) used to that ^x event is not eaten.
+	ON_CONTROL_C_OR_X()
+	return
+}
+
+;proc to do when ctrl+c is pressed:
+ON_CONTROL_C_OR_X(){
+	global CTRL_COPY_LIST_MAKER_IS_ON
+	
+	;msgBox on_control_c entered
+	
+	if(CTRL_COPY_LIST_MAKER_IS_ON = "true"){
+		sleep, 100 ;HACK: Make sure clipboard updated before we do our magic.
+		DO_CLIP_LIST_MAKER_APPEND()
+	}
+	
+	return
+}
+
+;add to the list of lines you are collecting using ctrl+v
+DO_CLIP_LIST_MAKER_APPEND(){
+    ;msgBox appending
+    global CTRL_COPY_LIST
+	;nl = `r`n ;newline char. CR-LF windows style.
+	nl = `n ;newline, osx style. LF ONLY.
+	
+	if(CTRL_COPY_LIST==""){
+	    ;no newline char for first entry.
+		CTRL_COPY_LIST=%CTRL_COPY_LIST%%clipboard%
+	}
+	else
+	{
+		CTRL_COPY_LIST=%CTRL_COPY_LIST%%nl%%clipboard%
+	}
+	
+	
+	
+	return
+}
+
+DO_CLIP_LIST_MAKER_DUMP(){
+
+	;msgBox dumping list
+
+    global CTRL_COPY_LIST
+	;sendraw %CTRL_COPY_LIST%
+	
+	;put on clipboard, then ^v, then revert clipboard.
+	PASTE_TEXT(CTRL_COPY_LIST)
+	
+	
+	return
+}
+
 ;used for inserting snippets. Example [for] writes a for-loop snippet.
 BRACKET_SHORTCUT_TRY(UserInput)
 ;~[::
 {
 
+  ;Clip board list making:
+  clip_board_list_INIT = cc`] ;start using clipboard contents to assemble list.
+  clip_board_list_DUMP = cd`] ;dump the list we have made, but do not erase it.
+  
   cppIncludeGuardVar = ig`] ;include guard maker script.
 	poneVar = pone`]
   pasteUpperVar = pu`]
   pasteLowerVar = pl`]
+  
+  if(UserInput = clip_board_list_INIT)
+  {
+	DELETE_WORD("cc",2)
+	DO_CLIP_LIST_MAKER_INIT()
+	return
+  }
+  
+  if(UserInput = clip_board_list_DUMP)
+  {
+	DELETE_WORD("cd",2)
+	DO_CLIP_LIST_MAKER_DUMP()
+	return
+  }
 	
 	if(UserInput = cppIncludeGuardVar)
 	{
@@ -1011,6 +1106,19 @@ PASTE_CLIPBOARD_AS_LOWERCASE(){
   ;Restore Clipboard:
 	sleep, 100 ;HACK: sleep so ^v call goes through. APPROX: 0.1 seconds.
 	Clipboard = %clip_board_contents% 
+}
+
+PASTE_TEXT(text_variable){
+  ;Store old contents of clipboard:
+  clip_board_contents = %Clipboard%
+  clipboard = %text_variable%
+  
+  Send, ^v
+  
+  
+  ;Restore Clipboard:
+   sleep, 100 ;HACK: sleep so ^v call goes through. APPROX: 0.1 seconds.
+   Clipboard = %clip_board_contents% 
 }
 
 ;Dont know how to do with function

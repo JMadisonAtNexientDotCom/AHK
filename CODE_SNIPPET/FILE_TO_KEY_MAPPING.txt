@@ -13,6 +13,12 @@ pu
 THIS PATH MEANS NOTHING TO ME. Paste As lower-CASE command.
 pl
 
+THIS PATH MEANS NOTHING TO ME. Clip board list maker. Initialization.
+cc
+
+THIS PATH MEANS NOTHING TO ME. Clip board list maker. List Dump.
+cd
+
 CODE_SNIPPET\HELPDOC\CPP\Circular_Deps.docx
 ?circularc
 

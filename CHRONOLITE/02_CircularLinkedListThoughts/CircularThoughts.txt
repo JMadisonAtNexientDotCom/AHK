@@ -1,0 +1,103 @@
+
+//ROOT NODE UPON INIT:
+    RR==_root node.  //root node starts off circularily referencing itself.
+	CL== chain_link node to insert.
+    [    RR    ]      [    CL    ]
+    [PREV][NEXT]      [PREV][NEXT]
+	[ RR ][ RR ]      [NULL][NULL]
+
+	                               [  no==RR  ]   [  n1==RR  ]
+	Mebali* n0 = _root.prev; ----> [PREV][NEXT]   [PREV][NEXT]
+	Mebali* n1 = _root.next; ----> [ RR ][ RR ]   [ RR ][ RR ]
+	  
+	//FLANK: n0 ---> CL <--- n1    [  no==RR  ]   [  n1==RR  ]
+	n0.next = chain_link;          [PREV][NEXT]   [PREV][NEXT]
+	n1.prev = chain_link;          [ CL ][ CL ]   [ CL ][ CL ]
+	
+	//GRAB: n0 <--- CL ---> n1              [    CL    ]   
+    chain_link.prev = n0;                   [PREV][NEXT]
+	chain_link.next = n1;        n0==rr --> [ RR ][ RR ] <--n1==rr
+	
+	
+	//2ND INSERT CALL:
+	//Will insert operation work again if we repeat it with two elements?
+	//BB == chain_link node for insert call #2:
+	//  [    RR    ]      [    CL    ]     [    BB    ] 
+    //  [PREV][NEXT]      [PREV][NEXT]     [PREV][NEXT]
+	//  [ CL ][ CL ]      [ RR ][ RR ]     [NULL][NULL]
+	    
+	                                   [  no==CL  ]   [  n1==CL  ]
+	//  Mebali* n0 = _root.prev; ----> [PREV][NEXT]   [PREV][NEXT]
+	//  Mebali* n1 = _root.next; ----> [ RR ][ RR ]   [ RR ][ RR ]
+	    
+	//  FLANK: n0 ---> BB <--- n1      [  no==CL  ]   [  n1==CL  ]
+	//  n0.next = chain_link_bb;       [PREV][NEXT]   [PREV][NEXT]
+	//  n1.prev = chain_link_bb;       [ BB ][ BB ]   [ BB ][ BB ]
+    
+    //GRAB: n0 <--- BB ---> n1                 [    BB    ]   
+    chain_link_bb.prev = n0;                   [PREV][NEXT]
+	chain_link_bb.next = n1;        n0==cl --> [ CL ][ CL ] <--n1==cl
+    
+    ///////////////////////////////////////////////////////////////////////
+    //CONCLUSION: Linking method will not work. Need to revise method.
+    //It could work if we had a _root & _last node...
+    //But I like the idea of just ONE special node, not two.
+    //And a simple algorithm that can be used no matter where
+    //you insert, and no matter how many elements are in list.
+    ///////////////////////////////////////////////////////////////////////
+    
+	RR==_root node.  //root node starts off circularily referencing itself.
+	CL== chain_link node to insert.
+    [    RR    ]      [    CL    ]
+    [PREV][NEXT]      [PREV][NEXT]
+	[ RR ][ RR ]      [NULL][NULL]
+
+	                                [    RR    ]   [  nx==RR  ]
+	Mebali* nx = _root.next; ---->  [PREV][NEXT]   [PREV][NEXT]
+	                                [ RR ][ RR ]   [ RR ][ RR ]
+	  
+	//FLANK: RR ---> CL <--- nx     [    RR    ]   [  nx==RR  ]
+	_root.next = chain_link;        [PREV][NEXT]   [PREV][NEXT]
+	nx.prev    = chain_link;        [ CL ][ CL ]   [ CL ][ CL ]
+	
+	//GRAB: n0 <--- CL ---> nx              [    CL    ]   
+    chain_link.prev = _root;                [PREV][NEXT]
+	chain_link.next = nx;         _root --> [ RR ][ RR ] <--nx==_root
+    
+    //2ND INSERT CALL:
+	//Will insert operation work again if we repeat it with two elements?
+	//BB == chain_link node for insert call #2:
+	//  [    RR    ]      [    CL    ]     [    BB    ] 
+    //  [PREV][NEXT]      [PREV][NEXT]     [PREV][NEXT]
+	//  [ CL ][ CL ]      [ RR ][ RR ]     [NULL][NULL]
+    
+                                        [    RR    ]   [  nx==CL  ]
+	//  Mebali* nx = _root.next; ---->  [PREV][NEXT]   [PREV][NEXT]
+	                                    [ CL ][ CL ]   [ RR ][ RR ]
+                                        
+    //FLANK: RR ---> BB <--- nx         [    RR    ]   [  nx==CL  ]
+	//  _root.next = chain_link_BB;     [PREV][NEXT]   [PREV][NEXT]
+	//  nx.prev    = chain_link_BB;     [ CL ][ BB ]   [ BB ][ RR ]
+	
+	//GRAB: n0 <--- BB ---> nx                  [    BB    ]   
+    //  chain_link_BB.prev = _root;             [PREV][NEXT]
+	//  chain_link_BB.next = nx;      _root --> [ RR ][ NX ] <--nx==CL
+                                        
+    //W-WAY CIRCULAR LINK MADE!                                   
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+	
+	
