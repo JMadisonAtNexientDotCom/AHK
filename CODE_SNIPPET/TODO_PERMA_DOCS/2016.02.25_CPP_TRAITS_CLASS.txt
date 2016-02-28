@@ -1,0 +1,39 @@
+AHK SHORTCUT: [/traits]
+
+http://stackoverflow.com/questions/515763/how-can-derived-class-inherit-a-static-function-from-base-class
+
+
+//TODO: We need:
+OP<Trino>::ass(d,s);
+OP<Trino>::own(d,s);
+OP<Trino>::kill(i);
+To all be handled by a traits class.
+Then maybe figure out how we can enforce all classes to have static
+UnitTest class??
+
+////////////////EXAMPLE FROM URL///////////////////////////////////////////
+struct base {
+  static void talk()  { std::cout << "hello" << std::endl; }
+  static void shout() { std::cout << "HELLO !!" << std::endl; }
+};
+
+Then derive it and redefine some methods:
+
+struct derived: public base {
+  static void talk()  { std::cout << "goodbye" << std::endl; }
+};
+
+And now call the methods via a traits class:
+
+template < class T >
+struct talker_traits {
+  static void talk() { T::talk(); }
+  static void shout() { T::shout(); }
+};
+
+talker_traits<base>::talk()     // prints "hello"
+talker_traits<base>::shout()    // prints "HELLO !!"
+
+talker_traits<derived>::talk()  // prints "goodbye"
+talker_traits<derived>::shout() // prints "HELLO !!"
+

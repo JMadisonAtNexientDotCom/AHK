@@ -1,0 +1,1 @@
+http://localhost:8080/api/testing/swagger-ui.html#!/admin-controller/readAllSkillUsingGET

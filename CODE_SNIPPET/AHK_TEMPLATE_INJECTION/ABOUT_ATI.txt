@@ -1,0 +1,2 @@
+This folder is used for templated code that we want AHK to cut-paste.
+Used for procedurally generating stuff.
