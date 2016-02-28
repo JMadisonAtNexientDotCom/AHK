@@ -654,7 +654,7 @@ DO_CLIP_LIST_MAKER_DUMP(){
 	;sendraw %CTRL_COPY_LIST%
 	
 	;put on clipboard, then ^v, then revert clipboard.
-	PASTE_TEXT(CTRL_COPY_LIST)
+	PASTE_TEXTBLOCK(CTRL_COPY_LIST)
 	
 	
 	return
@@ -668,7 +668,7 @@ BRACKET_SHORTCUT_TRY(UserInput)
   ;Clip board list making:
   clip_board_list_INIT = cc`] ;start using clipboard contents to assemble list.
   clip_board_list_DUMP = cd`] ;dump the list we have made, but do not erase it.
-  
+  randomErrorCPP = re`] ;random error hash generation.
   cppIncludeGuardVar = ig`] ;include guard maker script.
 	poneVar = pone`]
   pasteUpperVar = pu`]
@@ -687,6 +687,29 @@ BRACKET_SHORTCUT_TRY(UserInput)
 	DO_CLIP_LIST_MAKER_DUMP()
 	return
   }
+	
+	if(UserInput = randomErrorCPP)
+	{
+		DELETE_WORD("re",2)
+		rhash := "A"
+		rhash := RAND_HASH(rhash)
+		;send %rhash%
+		
+		template_path := "CODE_SNIPPET\AHK_TEMPLATE_INJECTION\RANDOM_ERROR_CPP.txt"
+		;PASTE_FILE(mypath)
+		
+		codeblock := ""
+		codeblock_edited := ""
+		FileRead, codeblock, %template_path%
+		codeblock_edited := RegExReplace(codeblock,"12345678",rhash)
+		
+		;sleep 100
+		;send %codeblock%
+		
+		PASTE_TEXTBLOCK(codeblock_edited)
+		
+		return
+	}
 	
 	if(UserInput = cppIncludeGuardVar)
 	{
@@ -1108,17 +1131,20 @@ PASTE_CLIPBOARD_AS_LOWERCASE(){
 	Clipboard = %clip_board_contents% 
 }
 
-PASTE_TEXT(text_variable){
-  ;Store old contents of clipboard:
-  clip_board_contents = %Clipboard%
-  clipboard = %text_variable%
-  
-  Send, ^v
-  
-  
-  ;Restore Clipboard:
-   sleep, 100 ;HACK: sleep so ^v call goes through. APPROX: 0.1 seconds.
-   Clipboard = %clip_board_contents% 
+
+PASTE_TEXTBLOCK(textToPasteUsingClipboard){
+ ;Store old contents of clipboard:
+	clip_board_contents = %Clipboard%
+	
+	;load clipboard and paste
+	clipboard = %textToPasteUsingClipboard%
+	Send, ^v
+	
+	;Restore Clipboard:
+	sleep, 100 ;HACK: sleep for 999 milliseconds so ^v call goes through. APPROX: 0.1 seconds.
+	Clipboard = %clip_board_contents% 
+	
+	return
 }
 
 ;Dont know how to do with function
@@ -1174,3 +1200,144 @@ HAS_EXIT_WORTHY_ERROR(ERROR_LEVEL){
 	
 	return false
 }
+
+RAND_HASH(output_var){
+
+;output_var := "XX"  ;assign sets to "XX", good.
+;output_var = %output_var%literal_whatever ;correct usage.
+;output_var := RAND_ALPHA_NUM()            ;correct usage.
+
+output_var := ""
+other_var  := "XX"
+loop 8{
+other_var  := RAND_ALPHA_NUM()
+output_var = %output_var%%other_var%
+}
+
+return %output_var%
+
+;return "literal_whatever"
+	
+	
+}
+
+RAND_ALPHA_NUM()
+{
+
+	Random n, 1, 36
+	
+	if(n=1){
+		return "A"
+	}
+	if(n=2){
+		return "B"
+	}
+	if(n=3){
+		return "C"
+	}
+	if(n=4){
+		return "D"
+	}
+	if(n=5){
+		return "E"
+	}
+	if(n=6){
+		return "F"
+	}
+	if(n=7){
+		return "G"
+	}
+	if(n=8){
+		return "H"
+	}
+	if(n=9){
+		return "I"
+	}
+	if(n=10){
+		return "J"
+	}
+	if(n=11){
+		return "K"
+	}
+	if(n=12){
+		return "L"
+	}
+	if(n=13){
+		return "M"
+	}
+	if(n=14){
+		return "N"
+	}
+	if(n=15){
+		return "O"
+	}
+	if(n=16){
+		return "P"
+	}
+	if(n=17){
+		return "Q"
+	}
+	if(n=18){
+		return "R"
+	}
+	if(n=19){
+		return "S"
+	}
+	if(n=20){
+		return "T"
+	}
+	if(n=21){
+		return "U"
+	}
+	if(n=22){
+		return "V"
+	}
+	if(n=23){
+		return "W"
+	}
+	if(n=24){
+		return "X"
+	}
+	if(n=25){
+		return "Y"
+	}
+	if(n=26){
+		return "Z"
+	}
+	if(n=27){
+		return "0"
+	}
+	if(n=28){
+		return "1"
+	}
+	if(n=29){
+		return "2"
+	}
+	if(n=30){
+		return "3"
+	}
+	if(n=31){
+		return "4"
+	}
+	if(n=32){
+		return "5"
+	}
+	if(n=33){
+		return "6"
+	}
+	if(n=34){
+		return "7"
+	}
+	if(n=35){
+		return "8"
+	}
+	if(n=36){
+		return "9"
+	}
+		
+	
+	return "BAD_RAND_NUM"
+}
+
+
+

@@ -4,6 +4,9 @@ paste
 THIS PATH MEANS NOTHING TO ME. One-line paste command.
 pone
 
+THIS PATH MEANS NOTHING. Used to create C++ randomly generated debug errors.
+re
+
 THIS PATH MEANS NOTHING TO ME. Used to create C++ include gaurds.
 ig
 
@@ -18,6 +21,45 @@ cc
 
 THIS PATH MEANS NOTHING TO ME. Clip board list maker. List Dump.
 cd
+
+CODE_SNIPPET\TODO_PERMA_DOCS\2016.02.25_CPP_TRAITS_CLASS.txt
+traits
+
+CODE_SNIPPET\SHORTCUT_PATHS\GAUNTLET_UI\CONFLUENCE.txt
+/con
+
+CODE_SNIPPET\SHORTCUT_PATHS\GAUNTLET_UI\CONFLUENCE.txt
+/confluence
+
+CODE_SNIPPET\JAVASCRIPT\FRAMEWORKS\CanvasJSDemo.html
+canjs
+
+CODE_SNIPPET\HTML\RDTEST\NullVsUndefinedProps.html
+nvup
+
+CODE_SNIPPET\HTML\ON_LOAD.txt
+onload
+
+CODE_SNIPPET\HELPDOC\HTML\onload.docx
+?onload
+
+FUNSTUFF\PERSONAL\leaderboard.txt
+/leaderboard
+
+CODE_SNIPPET\NEXIENT_PROJECTS\GAUNTLET_BE\rest_error_codes.txt
+/rester
+
+CODE_SNIPPET\NEXIENT_PROJECTS\GAUNTLET_BE\rest_error_codes.txt
+/resterrors
+
+CODE_SNIPPET\HELPDOC\GIT\GIT_REMOTE_CHECKOUT.docx
+?greco
+
+CODE_SNIPPET\NEXIENT_PROJECTS\GAUNTLET_BE\backend_setup.txt
+besetup
+
+CODE_SNIPPET\NEXIENT_PROJECTS\GAUNTLET_BE\swagger.txt
+swag
 
 CODE_SNIPPET\HELPDOC\CPP\Circular_Deps.docx
 ?circularc

@@ -1,0 +1,1 @@
+http://developers.janrain.com/reference/restful-error-codes/registration-rest-error-codes/#error-responses
