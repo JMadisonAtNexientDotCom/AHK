@@ -1,0 +1,2 @@
+ASD == "Auto Hotkey ShortCut Data"
+Will eventually want all my paths refactored to here.

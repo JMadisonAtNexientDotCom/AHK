@@ -1,0 +1,6 @@
+//Get the original student entry:
+var selection = from   s in db.Students
+                where  s.ID == edits.ID
+                select s;
+List<Student> selAsList = selection.ToList<Student>();
+Student target = (Student)selAsList.First();

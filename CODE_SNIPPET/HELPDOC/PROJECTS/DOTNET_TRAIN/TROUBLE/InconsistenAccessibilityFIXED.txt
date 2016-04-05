@@ -1,0 +1,35 @@
+
+//ERROR: Inconsistent accessibility: property type 'DbSet<Student>' is
+//less accessible than property 'SchoolContext.Students'
+namespace HardKnock.DAL
+{
+    public class SchoolContext : DbContext
+    {
+        //Where is import for DbSet???
+        public DbSet<Student> Students {get; set;}
+ 
+        public SchoolContext() : base("SchoolContext")
+        {
+       
+        }
+    }
+}
+
+
+
+/////////// THE PROBLEM IS IN Student.cs FILE //////////////////////////////////
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace HardKnock.Models
+{
+    //FIX: MAKE IT PUBLIC!!!!
+    public class Student
+    {
+        public int ID { get; set; }
+        public string LastName { get; set; }
+    }
+}

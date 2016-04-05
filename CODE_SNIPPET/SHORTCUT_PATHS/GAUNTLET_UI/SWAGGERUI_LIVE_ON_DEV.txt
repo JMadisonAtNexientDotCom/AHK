@@ -1,0 +1,1 @@
+http://devqa.corp.nexient.com/api/testing/swagger-ui.html

@@ -1,0 +1,1 @@
+http://stackoverflow.com/questions/965580/c-sharp-generics-syntax-for-multiple-type-parameter-constraints

@@ -1,0 +1,37 @@
+NEX_30_EDIT_EXISTING_STUDENT: AHK[nex_30]
+URL: https://systemsinmotion.atlassian.net/secure/RapidBoard.jspa?rapidView=26&projectKey=NEX&view=detail&selectedIssue=NEX-30
+TUT: https://www.asp.net/mvc/overview/getting-started/getting-started-with-ef-using-mvc/creating-an-entity-framework-data-model-for-an-asp-net-mvc-application
+
+- Add Edit Hyperlink to the Index Page as the first column
+- Takes the ID for the Student Row
+- Passes it to Edit Action on Controller View
+- Get existing Student from DB
+- View with: 
+ - Labels for the fields
+ - Readonly ID field, 
+   Created Date, 
+	 Modified Date (convert from UTC to local) YYYY-MM-DD  hh:mm:ss format
+ - Editable text fields for:
+ - Firstname
+ - LastName
+ - Enrollment Date
+
+Save - Saves Changes, save values from form, 
+       updates the Modified Date to UTC Now, 
+			 redirects back to index with updated information
+			 
+Cancel - Returns to the Index Page
+
+
+EditStudent View.cshtml =============================================\\
+                                                                     ||
+ XXXX                            XXXXXXXXXXXX XXXXXXXXXXXXX          ||
++----+-------+------+-----------+------------+-------------+         ||
+| id | first | last | enroll_DT | created_DT | modified_DT |         ||
++----+-------+------+-----------+------------+-------------+         ||
+EDITABLE PROPERITES: first + last, others are read-only.             ||
+                                                                     ||
+[  SAVE  ]                                                           ||
+[ CANCEL ]                                                           ||
+                                                                     ||
+//===================================================================//
