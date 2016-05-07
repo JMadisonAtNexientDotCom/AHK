@@ -669,6 +669,7 @@ BRACKET_SHORTCUT_TRY(UserInput)
   clip_board_list_INIT = cc`] ;start using clipboard contents to assemble list.
   clip_board_list_DUMP = cd`] ;dump the list we have made, but do not erase it.
   randomErrorCPP = re`] ;random error hash generation.
+  randErrCppTab2X= r2`] ;random error, 2 tabs of indent.
   cppIncludeGuardVar = ig`] ;include guard maker script.
 	poneVar = pone`]
   pasteUpperVar = pu`]
@@ -686,6 +687,22 @@ BRACKET_SHORTCUT_TRY(UserInput)
 	DELETE_WORD("cd",2)
 	DO_CLIP_LIST_MAKER_DUMP()
 	return
+  }
+  
+  if(UserInput = randErrCppTab2X){
+    DELETE_WORD("r2",2)
+    rhash := "A"
+    rhash := RAND_HASH(rhash)
+   
+    template_path := "CODE_SNIPPET\AHK_TEMPLATE_INJECTION\RAND_ERR_CPP_TABS_2X.txt"
+ 
+    codeblock := ""
+    codeblock_edited := ""
+    FileRead, codeblock, %template_path%
+    codeblock_edited := RegExReplace(codeblock,"12345678",rhash)
+    
+    PASTE_TEXTBLOCK(codeblock_edited)
+    return
   }
 	
 	if(UserInput = randomErrorCPP)

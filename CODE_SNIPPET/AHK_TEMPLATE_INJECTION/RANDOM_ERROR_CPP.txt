@@ -1,3 +1,4 @@
 #if DEBUG //::__::__::__::__::__::__::__::__::__::__::__::__::__::__::__|||
-if(XXXXXXXXXXXXXXXXXXXXXXXX){std::cout<<"[4ZP3Y9LR]"<<std::endl; throw(5);}                         
+bool 123456789 = (PUT_CONDITION_HERE);
+if(123456789){std::cout<<"[12345678]"<<std::endl; throw(5);}                         
 #endif /////::--::--::--::--::--::--::--::--::--::--::--::--::--::--::--|||
