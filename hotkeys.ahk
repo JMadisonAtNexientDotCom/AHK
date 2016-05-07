@@ -8,12 +8,13 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 SetDefaults(void)
 {
 global
+KONAMI := ""
 CTRL_COPY_LIST := ""
 CTRL_COPY_LIST_MAKER_IS_ON = false
 TheList= fora,bena,iana
 
  
-  ;As nice as it would be to use a shortcut file... lookups this way are SLOW!
+  ;As nice as it would be to use a shortcut file... lookups this way are SLOW.
         ; Create the array, initially empty:
         SNIPPET_SHORTCUT_ARRAY     := Object()
 				ANG_SNIPPET_SHORTCUT_ARRAY := Object()
@@ -202,29 +203,29 @@ SetDefaults(void)
 
 
 ; /////////////Enter move mode script///////////////////////////////////////////
-!J::
-{
-enterMoveMode(void)
-return
-}
-
-!L::
-{
-enterMoveMode(void)
-return
-}
-
-!I::
-{
-enterMoveMode(void)
-return
-}
-
-!K::
-{
-enterMoveMode(void)
-return
-}
+;//    !J::
+;//    {
+;//    enterMoveMode(void)
+;//    return
+;//    }
+;//    
+;//    !L::
+;//    {
+;//    enterMoveMode(void)
+;//    return
+;//    }
+;//    
+;//    !I::
+;//    {
+;//    enterMoveMode(void)
+;//    return
+;//    }
+;//    
+;//    !K::
+;//    {
+;//    enterMoveMode(void)
+;//    return
+;//    }
 ; /////////////ONLY WHEN IN MOVE MODE///////////////////////////////////////////
 
 
@@ -234,13 +235,14 @@ Run, %A_ScriptDir%\SUB_MODULES\MoveMode.ahk
 exitApp
 }
 
-!M::
-{
-   ;//MsgBox, "ALT + M??"
-	 Run, %A_ScriptDir%\SUB_MODULES\HackingDrawScreen.ahk
-	 exitApp ;//exit this script so selector hotkeys can take over.
-   ;return
-}
+
+;		!M::
+;		{
+;			 ;//MsgBox, "ALT + M??"
+;			 Run, %A_ScriptDir%\SUB_MODULES\HackingDrawScreen.ahk
+;			 exitApp ;//exit this script so selector hotkeys can take over.
+;			 ;return
+;		}
 
 ;// http://www.autohotkey.com/board/topic/99092-remap-colon-key-help/
 ; `: will use for ":" key.
@@ -342,7 +344,7 @@ IMPORT_SHORTCUT_TRY(UserInput)
 				if(possibleFileNameLen > 0)
 				{
 					DELETE_WORD("!!",0)
-					PASTE_TEXT_FRIENDLY_FILES_OR_OPEN_OTHERWISE(possibleFileName)
+					DIRECTPASTE_OR_WORK_WITH_FILE_POINTED_TO(possibleFileName, SubInput)
 				}
 				else
 				{
@@ -384,7 +386,7 @@ IMPORT_SHORTCUT_TRY(UserInput)
 		if(possibleFileNameLen > 0)
 		{
 			DELETE_WORD(SubInput,2)
-			PASTE_TEXT_FRIENDLY_FILES_OR_OPEN_OTHERWISE(possibleFileName)
+			DIRECTPASTE_OR_WORK_WITH_FILE_POINTED_TO(possibleFileName, SubInput)
 		}
 		else
 		{
@@ -393,6 +395,41 @@ IMPORT_SHORTCUT_TRY(UserInput)
   ;////////////////////////////////////////////////////////////////////
 		
 	return
+}
+
+;Here we decide if we need to paste the file path directly, or if we
+;need to work with the contents of the file.
+DIRECTPASTE_OR_WORK_WITH_FILE_POINTED_TO(filePath, shortcutPhrase)
+{
+  ;if shortcutPhrase starts with "/" and filePath starts with C:\,
+	;then we will directly paste the filePath, else we will
+	;move onto PASTE_TEXT_FRIENDLY_FILES_OR_OPEN_OTHERWISE
+	PHRASE_START := subStr(shortcutPhrase,1,1)
+	FILE_PATH_START := subStr(filePath,1,3)
+	HAS_PHRASE_START := 0
+	HAS_FILE_PATH_START := 0
+	
+	if(PHRASE_START == "/")
+	{
+	HAS_PHRASE_START := 1
+	}
+	if(FILE_PATH_START == "C:\")
+	{
+	HAS_FILE_PATH_START := 1
+	}
+	
+	TOTAL := HAS_PHRASE_START + HAS_FILE_PATH_START
+	if(TOTAL == 2)
+	{
+		;msgBox TODODDODOD GET_IT_DONE
+		PASTE_TEXT(filePath)
+	}
+	else
+	{
+		PASTE_TEXT_FRIENDLY_FILES_OR_OPEN_OTHERWISE(filePath)
+	}
+	
+	return ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 }
 
 ~<::
@@ -454,7 +491,7 @@ JSP_JSTL_SHORTCUT_TRY(UserInput)
 		if(possibleFileNameLen > 0)
 		{
 			DELETE_WORD(SubInput,2)
-			PASTE_TEXT_FRIENDLY_FILES_OR_OPEN_OTHERWISE(possibleFileName)
+			DIRECTPASTE_OR_WORK_WITH_FILE_POINTED_TO(possibleFileName, SubInput)
 		}
 		else
 		{
@@ -512,7 +549,7 @@ ANGULAR_SHORTCUT_TRY(UserInput)
 		if(possibleFileNameLen > 0)
 		{
 			DELETE_WORD(SubInput,2)
-			PASTE_TEXT_FRIENDLY_FILES_OR_OPEN_OTHERWISE(possibleFileName)
+			DIRECTPASTE_OR_WORK_WITH_FILE_POINTED_TO(possibleFileName, SubInput)
 		}
 		else
 		{
@@ -524,9 +561,31 @@ ANGULAR_SHORTCUT_TRY(UserInput)
 } ;//angular shortcut try.
 
 
+;konami code to activate chord script
+;tilde makes key ignore all modifier.
+~space::
+{
 
+Input, UserInput, V T5 L10 C, {enter}.{esc}{tab},wwssadad
 
-
+	if (ErrorLevel =="Max" || ErrorLevel == "Timeout" || ErrorLevel == "NewInput")
+	{
+	return
+	}
+	
+	; NOT SURE WHAT THIS DOES:
+	THE_BOOL := false
+	THE_BOOL = (InStr(ErrorLevel,"EndKey:")
+	if(THE_BOOL)
+	{
+		if (UserInput = "wwssadad")
+		{
+			DELETE_WORD("wwssadad",1)
+			Run, %A_ScriptDir%\SUB_MODULES\CHORDS\CHORD_SCRIPT.ahk
+		}
+	}
+return
+}
 
 
 
@@ -894,7 +953,7 @@ BRACKET_SHORTCUT_TRY(UserInput)
 		if(possibleFileNameLen > 0)
 		{
 			DELETE_WORD(SubInput,2)
-			PASTE_TEXT_FRIENDLY_FILES_OR_OPEN_OTHERWISE(possibleFileName)
+			DIRECTPASTE_OR_WORK_WITH_FILE_POINTED_TO(possibleFileName, SubInput)
 		}
 		else
 		{
@@ -1076,13 +1135,14 @@ BRACKET_SHORTCUT_TRY(UserInput)
 	return
 }
 
-;;http://www.autohotkey.com/board/topic/91839-turning-off-and-on-switch/
-;;CTRL(^) + ALT(!) + S,
-;;used as toggle to turn auto hotkeys on/off.
-^!s::
-Suspend, Permit
-Suspend, Toggle
-Return
+;Removed suspension hotkey because it conflicts with chord script.
+;;  ;;http://www.autohotkey.com/board/topic/91839-turning-off-and-on-switch/
+;;  ;;CTRL(^) + ALT(!) + S,
+;;  ;;used as toggle to turn auto hotkeys on/off.
+;;  ^!s::
+;;  Suspend, Permit
+;;  Suspend, Toggle
+;;  Return
 
 ;A alternate way to enter shortcut using a dialog box:
 ^#r::  ; (^#r) === (CTRL + WINDOWS + R) key::
@@ -1110,16 +1170,54 @@ PASTE_TEXT_FRIENDLY_FILES_OR_OPEN_OTHERWISE(filePath){
 	;//SplitPath, InputVar [, OutFileName, OutDir, OutExtension, OutNameNoExt, OutDrive]
 	SplitPath, filePath, dontCare01,  dontCare02, ext,  dontCare03,  dontCare04
 
-	if(  (ext="docx") || (ext="pdf") || (ext="png") || (ext="exe") || (ext="bat"))
+	is_runnable := 0
+	if(  (ext="docx") || (ext="pdf") || (ext="png") || (ext="jpg") )
 	{
-		Run, %A_ScriptDir%\%filePath%
-	}
-	else
+		is_runnable = 1
+	}else
+	if( (ext="exe") || (ext="bat") || (ext="ahk") || (ext="sln") )
 	{
-		PASTE_FILE(filePath)
+		is_runnable = 1;
 	}
 	
-	return
+	if(is_runnable > 0)
+	{
+		RUN_FILE(filePath)
+		return
+	}
+	
+	is_url := 0                  ;----------12345678
+	HTTP := subStr(filePath,1,7) ;look for: HTTP://
+	HTTPS:= subStr(filePath,1,8) ;look for: HTTPS://
+	StringUpper, HTTP, HTTP
+	StringUpper, HTTPS, HTTPS
+	if(HTTP == "HTTP://" || HTTPS == "HTTPS://")
+	{
+		is_url := 1
+	}
+	
+	if(is_url > 0)
+	{ ;rather than open file, paste whatever is there.
+		PASTE_TEXT(filePath)
+		return
+	}
+	
+	;if not URL and not path to OPENABLE FILE (.exe,.png etc), 
+	;then just paste the file contents.
+	PASTE_FILE(filePath)
+	
+	
+	
+	; if(  (ext="docx") || (ext="pdf") || (ext="png") || (ext="exe") || (ext="bat"))
+	; {
+	; 	Run, %A_ScriptDir%\%filePath%
+	; }
+	; else
+	; {
+	; 	PASTE_FILE(filePath)
+	; }
+	
+	return ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 }
 
 PASTE_CLIPBOARD_AS_UPPERCASE(){
@@ -1133,6 +1231,8 @@ PASTE_CLIPBOARD_AS_UPPERCASE(){
   ;Restore Clipboard:
 	sleep, 100 ;HACK: sleep so ^v call goes through. APPROX: 0.1 seconds.
 	Clipboard = %clip_board_contents% 
+	
+	return ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 }
 
 PASTE_CLIPBOARD_AS_LOWERCASE(){
@@ -1146,6 +1246,8 @@ PASTE_CLIPBOARD_AS_LOWERCASE(){
   ;Restore Clipboard:
 	sleep, 100 ;HACK: sleep so ^v call goes through. APPROX: 0.1 seconds.
 	Clipboard = %clip_board_contents% 
+	
+	return ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 }
 
 
@@ -1160,6 +1262,31 @@ PASTE_TEXTBLOCK(textToPasteUsingClipboard){
 	;Restore Clipboard:
 	sleep, 100 ;HACK: sleep for 999 milliseconds so ^v call goes through. APPROX: 0.1 seconds.
 	Clipboard = %clip_board_contents% 
+	
+	return
+}
+
+RUN_FILE(filePath)
+{
+;see if filePath is NOT relative:
+is_relative_path := 1
+base := subStr(filePath,1,3)
+if(base == "C:\")
+{
+is_relative_path := 0
+}
+
+	if(is_relative_path == 1)
+	{
+		Run, %A_ScriptDir%\%filePath%
+	}else
+	if(is_relative_path == 0)
+	{
+		Run, %filePath%
+	}else
+	{
+		msgBox NOT1NOT0
+	}
 	
 	return
 }
@@ -1181,6 +1308,23 @@ PASTE_FILE(filePathToRead){
 	return
 }
 
+PASTE_TEXT(text_to_paste)
+{
+
+  ;Store old contents of clipboard:
+	clip_board_contents = %Clipboard%
+	
+  ;Read data into clipboard, and paste it:
+	Clipboard := text_to_paste
+	Send, ^v
+	
+	;Restore Clipboard:
+	sleep, 100 ;HACK: sleep for 999 milliseconds so ^v call goes through. APPROX: 0.1 seconds.
+	Clipboard = %clip_board_contents% 
+
+	return
+}
+
 PRINT_TEMPLATE_CONFIG_FILE_CONTENTS()
 {
 	theFilePath:="CODE_SNIPPET\FILE_TO_KEY_MAPPING.txt"
@@ -1197,6 +1341,8 @@ DELETE_WORD(inWord, extra){
 	{
 		Send, {backspace}
 	}
+	;bugfix: Forgot return after DELETE_WORD
+	return ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 }
 
 ;//has an error that should make us bail out from the
@@ -1355,6 +1501,8 @@ RAND_ALPHA_NUM()
 	
 	return "BAD_RAND_NUM"
 }
+
+
 
 
 

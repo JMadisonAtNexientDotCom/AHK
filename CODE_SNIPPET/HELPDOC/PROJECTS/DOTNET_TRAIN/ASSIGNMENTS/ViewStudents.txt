@@ -1,0 +1,20 @@
+    AHK: [viewstudents]
+		Approach: Get Id + FirstName working and displaying.
+		Once that works, add the other columns.
+		Populate with default data.
+		
+		As an Enrollment Administrator
+    I want to be able to view a list of Students
+    So that I can see who is enrolled at the school
+
+    Want to view list of students in a Grid with column headers for 
+		//0// PRIMARY KEY   | Identity type   |
+		//1// Id,           |  int            |   
+		//2// FirstName,    |  nvarchar(256)  |
+		//3// LastName,     |  nvarchar(256)  |
+		//4// EnrollmentDate|  UTC Default    | to Now when record is created
+		//6// CreatedDate,  |  UTC Default    | to Now when record is created
+		//7// ModifiedDate  |  UTC Default    | to now when created, update each 
+		                                        time record is saved *the saved part 
+																						will come in a later story
+

@@ -1,0 +1,19 @@
+using MySql.Data.MySqlClient;
+
+string add = "Address=localhost;";
+string dat = "Database='mytestdb';";
+string sec = "Integrated Security=false;"; //Though in MSDN, cannot use "Trusted_Connection" Synonym.
+string pwd = "Password='glen';";
+string uid = "UID='glen';";
+string per = "PersistSecurityInfo=False;";
+string cs = ""; //cs == connection string.                    
+   
+cs += add; //Address
+cs += dat; //Database
+cs += sec; //Integrated Security?
+cs += pwd; //Password
+cs += uid; //User ID
+cs += per; //Persist Security Info?
+
+MySqlConnection con = new MySqlConnection();
+con.ConnectionString = cs;

@@ -1,0 +1,46 @@
+
+BootStrap Tutorial #6 - NigaMaShish TiWari
+https://www.youtube.com/watch?v=hKulrfOP_HI
+
+Looks like all valueable stuff is BEFORE @8:42 within video.
+@9:26 making buttons in footer.
+
+<!-- This button will target mymodal div -->
+<a class="btn btn-success"
+data-toggle="modal"
+data-target=".mymodal"> 
+<span class="glyphicon glyphicon-eye-open"></span> 
+view
+</a>
+
+<!-- The modal popup -->
+<div class="modal fade mymodal" >
+	<div class="modal-dialog">
+		<div class="modal-content">
+		
+			<div class = "modal-header">
+				<button data-dismiss="modal" class="close"><span>&times;</span></button>
+				<div class="modal-title"> <h1> MODAL_TITLE_HERE </h1> </div>	
+			  xxxxxxxxxxxxxxxxxxxxxxxxx
+				THIS IS THE MODAL HEADER
+				xxxxxxxxxxxxxxxxxxxxxxxxx
+			</div>
+			<div class = "modal-body">
+				xxxxxxxxxxxxxxxxxxxxxxxxx
+				THIS IS THE MODAL BODY
+				xxxxxxxxxxxxxxxxxxxxxxxxx
+			</div>
+			<div class = "modal-footer">
+				xxxxxxxxxxxxxxxxxxxxxxxxx
+				THIS IS THE MODAL FOOTER
+				xxxxxxxxxxxxxxxxxxxxxxxxx
+				<button class="btn btn-primary"> submit </button>
+				<button class="btn btn-default" data-dismiss="modal" aria-hidden="true"> 
+					cancel 
+				</button>
+				
+			</div>
+			
+		</div> <!-- modal-content -->
+	</div>   <!-- modal-dialog  -->
+</div>     <!-- modal         -->
